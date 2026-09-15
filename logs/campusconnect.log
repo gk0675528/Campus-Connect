@@ -1,0 +1,6 @@
+2026-09-15 22:41:21 | INFO     | core.events.event_bus:subscribe:19 - Subscribed to event: session_booked
+2026-09-15 22:41:21 | INFO     | core.events.event_bus:subscribe:19 - Subscribed to event: payment_completed
+2026-09-15 22:41:21 | INFO     | core.events.event_bus:subscribe:19 - Subscribed to event: mentor_verified
+2026-09-15 22:48:52 | INFO     | core.events.event_bus:subscribe:19 - Subscribed to event: session_booked
+2026-09-15 22:48:52 | INFO     | core.events.event_bus:subscribe:19 - Subscribed to event: payment_completed
+2026-09-15 22:48:52 | INFO     | core.events.event_bus:subscribe:19 - Subscribed to event: mentor_verified

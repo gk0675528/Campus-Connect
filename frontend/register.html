@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create an Account — CampusConnect</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logos/favicon.svg">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap 5 CSS & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  
+  <!-- Custom Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="auth-wrapper">
+    <!-- Left Hero Side -->
+    <div class="auth-hero-side">
+      <div>
+        <a href="index.html">
+          <img src="assets/logos/logo-white.svg" alt="CampusConnect Logo" height="42">
+        </a>
+      </div>
+
+      <div class="my-auto py-5">
+        <h1 class="display-5 font-heading fw-extrabold text-white mb-3">
+          Join the Global Mentorship Community.
+        </h1>
+        <p class="lead text-white opacity-90 mb-4">
+          Empowering millions of students to learn from verified seniors, gain alumni guidance, and accelerate careers.
+        </p>
+
+        <div class="d-flex flex-column gap-2 small text-white opacity-95">
+          <div><i class="bi bi-check2-circle text-warning me-2"></i> Free mentorship from same-college seniors & faculty</div>
+          <div><i class="bi bi-check2-circle text-warning me-2"></i> 1-on-1 scheduled mock interviews and technical reviews</div>
+          <div><i class="bi bi-check2-circle text-warning me-2"></i> Active campus study communities and research hubs</div>
+        </div>
+      </div>
+
+      <div class="small text-white opacity-75">
+        © 2026 CampusConnect Global Ecosystem. All rights reserved.
+      </div>
+    </div>
+
+    <!-- Right Form Side -->
+    <div class="auth-form-side">
+      <div class="auth-card">
+        <div class="auth-header">
+          <h2 class="auth-title">Create your account</h2>
+          <p class="auth-subtitle">Get started with CampusConnect in seconds</p>
+        </div>
+
+        <form id="register-form">
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <label class="form-label" for="reg-fname">First Name <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="reg-fname" placeholder="First name" required autocomplete="given-name">
+            </div>
+            <div class="col-6">
+              <label class="form-label" for="reg-lname">Last Name <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="reg-lname" placeholder="Last name" required autocomplete="family-name">
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="reg-username">Username <span class="text-danger">*</span></label>
+            <div class="input-group">
+              <span class="input-group-text">@</span>
+              <input type="text" class="form-control" id="reg-username" placeholder="unique_username" required autocomplete="username">
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="reg-email">College / Personal Email <span class="text-danger">*</span></label>
+            <input type="email" class="form-control" id="reg-email" placeholder="student@college.edu" required autocomplete="email">
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label" for="reg-password">Password <span class="text-danger">*</span></label>
+            <div class="password-input-wrap">
+              <input type="password" class="form-control" id="reg-password" placeholder="Create a strong password (min 6 chars)" required minlength="6" autocomplete="new-password">
+              <button type="button" class="password-toggle-btn" id="toggle-reg-pwd-btn" aria-label="Show or hide password">
+                <i class="bi bi-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100 btn-lg mb-3" id="register-submit-btn">
+            Create Free Account
+          </button>
+
+          <p class="text-center small text-secondary mt-4 mb-0">
+            Already have an account? <a href="login.html" class="fw-bold text-primary">Sign In</a>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Toggle Password Visibility
+      const pwdInput = document.getElementById("reg-password");
+      const toggleBtn = document.getElementById("toggle-reg-pwd-btn");
+      if (toggleBtn && pwdInput) {
+        toggleBtn.addEventListener("click", () => {
+          const isPwd = pwdInput.type === "password";
+          pwdInput.type = isPwd ? "text" : "password";
+          toggleBtn.innerHTML = isPwd ? '<i class="bi bi-eye-slash"></i>' : '<i class="bi bi-eye"></i>';
+        });
+      }
+
+      // Registration Form Submit
+      const form = document.getElementById("register-form");
+      const submitBtn = document.getElementById("register-submit-btn");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const firstName = document.getElementById("reg-fname").value.trim();
+        const lastName = document.getElementById("reg-lname").value.trim();
+        const username = document.getElementById("reg-username").value.trim();
+        const email = document.getElementById("reg-email").value.trim();
+        const password = document.getElementById("reg-password").value;
+
+        if (!firstName || !lastName || !username || !email || !password) {
+          UI.toast({ type: "warning", title: "Missing Fields", message: "Please fill out all required registration fields." });
+          return;
+        }
+
+        UI.setLoading(submitBtn, true, "Creating Account...");
+
+        try {
+          // 1. Submit Registration Payload
+          const newUser = await api.auth.register({
+            email,
+            username,
+            password,
+            first_name: firstName,
+            last_name: lastName,
+            role: "student"
+          });
+
+          // 2. Automatically Login with the new account
+          const tokenData = await api.auth.login(email, password);
+          Auth.login(tokenData, newUser);
+
+          UI.setLoading(submitBtn, false);
+
+          UI.toast({
+            type: "success",
+            title: "Account Created!",
+            message: "Welcome to CampusConnect! Redirecting to your dashboard..."
+          });
+
+          setTimeout(() => {
+            window.location.href = "dashboard.html";
+          }, 1000);
+        } catch (err) {
+          UI.setLoading(submitBtn, false);
+          console.error("Registration error", err);
+          UI.toast({
+            type: "error",
+            title: "Registration Failed",
+            message: err.message || "Could not complete registration."
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

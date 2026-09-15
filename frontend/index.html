@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusConnect — Har Student Tak Pahunch, Har Guru Ki Samajh</title>
+  <meta name="description" content="CampusConnect is a global mentorship, career guidance, research collaboration and academic networking platform connecting students with seniors, alumni, and professors.">
+  <link rel="icon" type="image/svg+xml" href="assets/logos/favicon.svg">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap 5 CSS & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  
+  <!-- Custom Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body class="bg-white">
+
+  <!-- Header Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top py-3">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <img src="assets/logos/logo.svg" alt="CampusConnect Logo" height="38">
+      </a>
+      
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarMain">
+        <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-3">
+          <li class="nav-item"><a class="nav-link fw-semibold text-dark" href="#how-it-works">How It Works</a></li>
+          <li class="nav-item"><a class="nav-link fw-semibold text-dark" href="mentors.html">Find Mentors</a></li>
+          <li class="nav-item"><a class="nav-link fw-semibold text-dark" href="#categories">Categories</a></li>
+          <li class="nav-item"><a class="nav-link fw-semibold text-dark" href="#pricing">Transparent Pricing</a></li>
+          <li class="nav-item"><a class="nav-link fw-semibold text-dark" href="communities.html">Communities</a></li>
+        </ul>
+
+        <div class="d-flex align-items-center gap-2" id="landing-auth-buttons">
+          <a href="login.html" class="btn btn-outline-secondary btn-sm px-3">Sign In</a>
+          <a href="register.html" class="btn btn-primary btn-sm px-3">Get Started</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="gradient-hero py-5 py-lg-6 position-relative overflow-hidden">
+    <div class="container py-4">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-7 text-center text-lg-start">
+          <div class="d-inline-flex align-items-center gap-2 px-3 py-1.5 rounded-pill bg-primary-light text-primary fw-semibold small mb-3 animate-fade-in">
+            <i class="bi bi-stars"></i> Har Student Tak Pahunch, Har Guru Ki Samajh
+          </div>
+          
+          <h1 class="display-4 font-heading fw-extrabold text-dark tracking-tight mb-3">
+            Find the right mentor.<br><span class="text-primary-custom">Build the right future.</span>
+          </h1>
+          
+          <p class="lead text-secondary mb-4 col-lg-10 ps-0">
+            Connect with seniors, alumni, professors, and industry leaders who guide your career, research, and technical journey.
+          </p>
+
+          <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center justify-content-lg-start mb-5">
+            <a href="mentors.html" class="btn btn-primary btn-lg shadow-sm">
+              <i class="bi bi-search me-1"></i> Find a Mentor
+            </a>
+            <a href="register.html" class="btn btn-outline-primary btn-lg">
+              <i class="bi bi-mortarboard me-1"></i> Become a Mentor
+            </a>
+          </div>
+
+          <!-- Trust Badges -->
+          <div class="row g-3 pt-3 border-top border-light">
+            <div class="col-4">
+              <div class="fw-bold fs-4 text-dark">500+</div>
+              <div class="text-muted small">Verified Mentors</div>
+            </div>
+            <div class="col-4">
+              <div class="fw-bold fs-4 text-dark">100%</div>
+              <div class="text-muted small">Free for Seniors</div>
+            </div>
+            <div class="col-4">
+              <div class="fw-bold fs-4 text-dark">4.9 ★</div>
+              <div class="text-muted small">Average Rating</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-5">
+          <div class="cc-card shadow-xl border-0 p-4 gradient-card-hero text-white position-relative">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+              <div class="d-flex align-items-center gap-3">
+                <div class="bg-white text-primary rounded-3 d-flex align-items-center justify-content-center fw-bold fs-4" style="width: 48px; height: 48px;">
+                  RS
+                </div>
+                <div>
+                  <h5 class="fw-bold text-white mb-0">Rahul Sharma</h5>
+                  <span class="small opacity-75">Senior Software Engineer • Alumni</span>
+                </div>
+              </div>
+              <span class="badge bg-success text-white px-2 py-1"><i class="bi bi-check-circle-fill me-1"></i>Verified</span>
+            </div>
+
+            <p class="small opacity-90 mb-3">
+              "Helped 40+ junior students crack interviews at top product companies and navigate career transitions."
+            </p>
+
+            <div class="d-flex flex-wrap gap-1 mb-4">
+              <span class="badge bg-white bg-opacity-25 text-white">System Design</span>
+              <span class="badge bg-white bg-opacity-25 text-white">FastAPI</span>
+              <span class="badge bg-white bg-opacity-25 text-white">Python</span>
+            </div>
+
+            <div class="d-flex align-items-center justify-content-between pt-3 border-top border-white border-opacity-25">
+              <div>
+                <span class="small opacity-75 d-block">Session Rate</span>
+                <span class="fs-4 fw-bold">₹800/hr</span>
+              </div>
+              <a href="mentors.html" class="btn btn-light text-primary fw-bold btn-sm">Book Session</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- How It Works -->
+  <section class="py-5 bg-subtle" id="how-it-works">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="text-primary fw-bold text-uppercase small letter-spacing-1">Step-by-Step Flow</span>
+        <h2 class="font-heading fw-extrabold text-dark mt-1">How CampusConnect Works</h2>
+        <p class="text-secondary">A seamless, student-first roadmap to finding guidance and unlocking growth.</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="cc-card h-100 p-4">
+            <div class="bg-primary-light text-primary rounded-3 d-flex align-items-center justify-content-center fs-3 mb-3" style="width: 54px; height: 54px;">
+              <i class="bi bi-person-badge"></i>
+            </div>
+            <h5 class="fw-bold text-dark mb-2">1. Create Profile & Set Goals</h5>
+            <p class="text-secondary small mb-0">Share your college, skills, and what you want to achieve — from campus placements to research papers.</p>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="cc-card h-100 p-4">
+            <div class="bg-primary-light text-primary rounded-3 d-flex align-items-center justify-content-center fs-3 mb-3" style="width: 54px; height: 54px;">
+              <i class="bi bi-search"></i>
+            </div>
+            <h5 class="fw-bold text-dark mb-2">2. Discover Verified Mentors</h5>
+            <p class="text-secondary small mb-0">Filter mentors by skill, department, college, or rate. Check ratings, past reviews, and expertise.</p>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="cc-card h-100 p-4">
+            <div class="bg-primary-light text-primary rounded-3 d-flex align-items-center justify-content-center fs-3 mb-3" style="width: 54px; height: 54px;">
+              <i class="bi bi-calendar2-check"></i>
+            </div>
+            <h5 class="fw-bold text-dark mb-2">3. Book, Connect & Grow</h5>
+            <p class="text-secondary small mb-0">Schedule 1-on-1 sessions, receive customized advice, calculate automated college discounts, and give feedback.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mentor Categories -->
+  <section class="py-5" id="categories">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="text-primary fw-bold text-uppercase small">Comprehensive Ecosystem</span>
+        <h2 class="font-heading fw-extrabold text-dark mt-1">Guidance at Every Level</h2>
+        <p class="text-secondary">Students learn from seniors. Seniors become mentors. Mentors become experts.</p>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-sm-6 col-lg-4">
+          <div class="p-3 border rounded-3 d-flex align-items-center gap-3 bg-white cc-card-hover">
+            <i class="bi bi-mortarboard-fill fs-2 text-primary"></i>
+            <div>
+              <h6 class="fw-bold mb-0">Senior Students</h6>
+              <span class="text-muted small">Coursework & campus placement tips</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-lg-4">
+          <div class="p-3 border rounded-3 d-flex align-items-center gap-3 bg-white cc-card-hover">
+            <i class="bi bi-briefcase-fill fs-2 text-primary"></i>
+            <div>
+              <h6 class="fw-bold mb-0">Alumni Network</h6>
+              <span class="text-muted small">Real industry roadmap & referrals</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-lg-4">
+          <div class="p-3 border rounded-3 d-flex align-items-center gap-3 bg-white cc-card-hover">
+            <i class="bi bi-book-half fs-2 text-primary"></i>
+            <div>
+              <h6 class="fw-bold mb-0">Professors</h6>
+              <span class="text-muted small">Academic clarity & career foundations</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-lg-4">
+          <div class="p-3 border rounded-3 d-flex align-items-center gap-3 bg-white cc-card-hover">
+            <i class="bi bi-journal-code fs-2 text-primary"></i>
+            <div>
+              <h6 class="fw-bold mb-0">Researchers</h6>
+              <span class="text-muted small">Paper writing, grants & PhD pathways</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-lg-4">
+          <div class="p-3 border rounded-3 d-flex align-items-center gap-3 bg-white cc-card-hover">
+            <i class="bi bi-cpu-fill fs-2 text-primary"></i>
+            <div>
+              <h6 class="fw-bold mb-0">Industry Experts</h6>
+              <span class="text-muted small">Mock interviews & technical mastery</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-lg-4">
+          <div class="p-3 border rounded-3 d-flex align-items-center gap-3 bg-white cc-card-hover">
+            <i class="bi bi-building-check fs-2 text-primary"></i>
+            <div>
+              <h6 class="fw-bold mb-0">Universities</h6>
+              <span class="text-muted small">Structured campus mentorship hubs</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Transparent Pricing Logic -->
+  <section class="py-5 bg-subtle" id="pricing">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="text-primary fw-bold text-uppercase small">Transparent & Fair</span>
+        <h2 class="font-heading fw-extrabold text-dark mt-1">CampusConnect Pricing Rules</h2>
+        <p class="text-secondary">We believe mentorship within your college community should be affordable or free.</p>
+      </div>
+
+      <div class="row g-4 justify-content-center">
+        <div class="col-md-6 col-lg-3">
+          <div class="cc-card text-center p-4 h-100 border-2">
+            <span class="badge badge-free mb-3">100% FREE</span>
+            <h5 class="fw-bold mb-2">Same College Senior</h5>
+            <p class="text-secondary small mb-3">Seniors guide juniors in their own college at no cost.</p>
+            <div class="fs-3 fw-bold text-dark mt-auto">₹0</div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+          <div class="cc-card text-center p-4 h-100 border-2">
+            <span class="badge badge-free mb-3">100% FREE</span>
+            <h5 class="fw-bold mb-2">Same College Professor</h5>
+            <p class="text-secondary small mb-3">Faculty guidance for enrolled campus students is always free.</p>
+            <div class="fs-3 fw-bold text-dark mt-auto">₹0</div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+          <div class="cc-card text-center p-4 h-100 border-2">
+            <span class="badge badge-discount mb-3">45% OFF</span>
+            <h5 class="fw-bold mb-2">Same College Alumni / Expert</h5>
+            <p class="text-secondary small mb-3">Alumni & researchers give a 45% discount to their alma mater.</p>
+            <div class="fs-3 fw-bold text-dark mt-auto">45% Discount</div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+          <div class="cc-card text-center p-4 h-100 border-2">
+            <span class="badge badge-standard mb-3">STANDARD</span>
+            <h5 class="fw-bold mb-2">External Mentors</h5>
+            <p class="text-secondary small mb-3">Cross-university or global industry expert standard hourly rates.</p>
+            <div class="fs-3 fw-bold text-dark mt-auto">Base Rate</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <section class="py-5 bg-primary-custom text-white">
+    <div class="container py-4 text-center">
+      <h2 class="display-6 font-heading fw-extrabold text-white mb-3">Ready to accelerate your academic and career journey?</h2>
+      <p class="lead opacity-90 mb-4 max-w-600 mx-auto">Join thousands of students and mentors connected across universities worldwide.</p>
+      <div class="d-flex justify-content-center gap-3 flex-wrap">
+        <a href="register.html" class="btn btn-light text-primary btn-lg fw-bold">Sign Up Free</a>
+        <a href="mentors.html" class="btn btn-outline-light btn-lg">Browse Mentors</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-white border-top py-5">
+    <div class="container">
+      <div class="row g-4 justify-content-between">
+        <div class="col-lg-4">
+          <img src="assets/logos/logo.svg" alt="CampusConnect Logo" height="34" class="mb-3">
+          <p class="text-muted small">
+            CampusConnect is the premier AI-powered global mentorship ecosystem connecting students with verified seniors, alumni, professors, and experts.
+          </p>
+          <div class="text-muted small">
+            <em>Har Student Tak Pahunch, Har Guru Ki Samajh</em>
+          </div>
+        </div>
+        <div class="col-6 col-md-3 col-lg-2">
+          <h6 class="fw-bold text-dark mb-3">Explore</h6>
+          <ul class="list-unstyled small d-flex flex-column gap-2 text-secondary">
+            <li><a href="mentors.html" class="text-secondary">Find Mentors</a></li>
+            <li><a href="communities.html" class="text-secondary">Communities</a></li>
+            <li><a href="register.html" class="text-secondary">Become a Mentor</a></li>
+            <li><a href="#pricing" class="text-secondary">Pricing Logic</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3 col-lg-2">
+          <h6 class="fw-bold text-dark mb-3">Account</h6>
+          <ul class="list-unstyled small d-flex flex-column gap-2 text-secondary">
+            <li><a href="login.html" class="text-secondary">Sign In</a></li>
+            <li><a href="register.html" class="text-secondary">Register</a></li>
+            <li><a href="dashboard.html" class="text-secondary">Student Dashboard</a></li>
+            <li><a href="mentor-dashboard.html" class="text-secondary">Mentor Portal</a></li>
+          </ul>
+        </div>
+        <div class="col-md-4 col-lg-3">
+          <h6 class="fw-bold text-dark mb-3">API & Backend Status</h6>
+          <p class="text-muted small mb-2">Connected to FastAPI server.</p>
+          <span class="badge bg-success-subtle text-success border border-success-subtle py-1.5 px-3">
+            <i class="bi bi-check-circle me-1"></i> API Connected
+          </span>
+        </div>
+      </div>
+      <div class="border-top mt-5 pt-4 text-center text-muted small">
+        © 2026 CampusConnect. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      if (Auth.isAuthenticated()) {
+        const btnWrap = document.getElementById("landing-auth-buttons");
+        if (btnWrap) {
+          btnWrap.innerHTML = `
+            <a href="dashboard.html" class="btn btn-primary btn-sm px-3">
+              <i class="bi bi-speedometer2 me-1"></i> Go to Dashboard
+            </a>
+          `;
+        }
+      }
+    });
+  </script>
+</body>
+</html>
