@@ -1,6 +1,11 @@
 from pydantic_settings import BaseSettings
 from typing import Optional
 import os
+from pathlib import Path
+
+
+BASE_DIR = Path(__file__).resolve().parents[2]
+DEFAULT_DB_PATH = BASE_DIR / "campusconnect.db"
 
 
 class Settings(BaseSettings):
@@ -14,7 +19,7 @@ class Settings(BaseSettings):
     # Database
     DATABASE_URL: str = os.getenv(
         "DATABASE_URL",
-        "sqlite+aiosqlite:///./campusconnect.db"
+        f"sqlite+aiosqlite:///{DEFAULT_DB_PATH.as_posix()}"
     )
     DATABASE_ECHO: bool = DEBUG
     

@@ -200,8 +200,20 @@ alembic upgrade head
 
 ### 5. Start the API
 
+Keep this terminal open while the backend is running. It stays alive until you stop it with `Ctrl+C`.
+
 ```bash
-python main.py
+cd backend
+source .venv/bin/activate
+uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+On Windows PowerShell:
+
+```powershell
+cd backend
+.\.venv\Scripts\Activate.ps1
+uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
 The backend is available at:
