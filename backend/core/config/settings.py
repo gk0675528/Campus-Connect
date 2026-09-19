@@ -12,8 +12,8 @@ class Settings(BaseSettings):
     """Application Settings"""
     
     # App
-    APP_NAME: str = "CampusConnect"
-    APP_VERSION: str = "1.0.0"
+    APP_NAME: str = "Skillora"
+    APP_VERSION: str = "1.1.0"
     DEBUG: bool = os.getenv("DEBUG", "False") == "True"
     
     # Database

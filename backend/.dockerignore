@@ -6,3 +6,6 @@ __pycache__/
 .git/
 .pytest_cache/
 logs/
+
+# Keep the dependency manifest available to Docker builds.
+!requirements.txt

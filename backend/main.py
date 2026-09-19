@@ -30,7 +30,7 @@ async def lifespan(app: FastAPI):
     """Application lifespan management"""
     
     # Startup
-    app_logger.info("Starting CampusConnect API")
+    app_logger.info(f"Starting {settings.APP_NAME} API")
     
     try:
         # Initialize database
@@ -48,7 +48,7 @@ async def lifespan(app: FastAPI):
     yield
     
     # Shutdown
-    app_logger.info("Shutting down CampusConnect API")
+    app_logger.info(f"Shutting down {settings.APP_NAME} API")
     
     try:
         # Disconnect Redis

@@ -1,5 +1,7 @@
 FROM python:3.11-slim
 
+ARG APP_CONTEXT=.
+
 WORKDIR /app
 
 # Install system dependencies
@@ -8,14 +10,16 @@ RUN apt-get update && apt-get install -y \
     postgresql-client \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements
-COPY requirements.txt .
+# Copy requirements from the configured build context. This supports both:
+# - docker build -f backend/Dockerfile backend
+# - docker build -f backend/Dockerfile --build-arg APP_CONTEXT=backend .
+COPY ${APP_CONTEXT}/requirements.txt .
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application
-COPY . .
+# Copy the backend application source from the selected build context
+COPY ${APP_CONTEXT} .
 
 # Create logs directory
 RUN mkdir -p logs

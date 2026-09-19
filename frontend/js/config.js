@@ -1,10 +1,10 @@
 /**
- * CampusConnect - Global Configuration & State
+ * Skillora - Global Configuration & State
  * Centralized configuration replaceable in production without modifying logic files.
  */
 
 const configuredApiUrl = window.APP_CONFIG && window.APP_CONFIG.API_BASE_URL;
-const injectedApiUrl = window.CAMPUSCONNECT_API_URL;
+const injectedApiUrl = window.SKILLORA_API_URL || window.CAMPUSCONNECT_API_URL;
 const isLocalDev = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 const defaultApiUrl = (isLocalDev && window.location.port !== "8000")
   ? "http://localhost:8000"
@@ -12,7 +12,7 @@ const defaultApiUrl = (isLocalDev && window.location.port !== "8000")
 
 window.APP_CONFIG = {
   ...(window.APP_CONFIG || {}),
-  // Set window.CAMPUSCONNECT_API_URL before this script for a separate API host.
+  // Set window.SKILLORA_API_URL before this script for a separate API host.
   API_BASE_URL: configuredApiUrl || injectedApiUrl || defaultApiUrl
 };
 

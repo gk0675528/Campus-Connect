@@ -1,8 +1,8 @@
-# CampusConnect
+# Skillora
 
-CampusConnect is a mentorship and academic networking platform that connects students with seniors, alumni, professors, and industry mentors. The project contains a FastAPI backend and a static HTML/CSS/JavaScript frontend.
+Skillora is a student learning, mentorship, and career growth platform that connects students with mentors, alumni, educators, and learning communities. The project contains a FastAPI backend and a static HTML/CSS/JavaScript frontend.
 
-> Har Student Tak Pahunch, Har Guru Ki Samajh
+> Learn Better. Connect Smarter. Grow Together.
 
 ## Contents
 
