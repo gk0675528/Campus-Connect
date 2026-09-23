@@ -136,6 +136,7 @@ const api = {
   auth: {
     login: (email, password) => API.post("/api/auth/login", { email, password }),
     register: (userData) => API.post("/api/auth/register", userData),
+<<<<<<< HEAD
     me: () => API.get("/api/auth/me"),
     requestPasswordReset: (email) => API.post("/api/auth/forgot-password", { email }),
     verifyPasswordReset: (email, otp) => API.post("/api/auth/forgot-password/verify", { email, otp }),
@@ -144,6 +145,9 @@ const api = {
       otp,
       new_password: newPassword
     })
+=======
+    me: () => API.get("/api/auth/me")
+>>>>>>> 80490f70230c4eaef040f55c7d022a67369fb3e4
   },
 
   // Mentorship Endpoints

@@ -4,6 +4,7 @@
 2026-09-15 22:48:52 | INFO     | core.events.event_bus:subscribe:19 - Subscribed to event: session_booked
 2026-09-15 22:48:52 | INFO     | core.events.event_bus:subscribe:19 - Subscribed to event: payment_completed
 2026-09-15 22:48:52 | INFO     | core.events.event_bus:subscribe:19 - Subscribed to event: mentor_verified
+<<<<<<< HEAD
 2026-09-21 19:48:04 | INFO     | main:lifespan:33 - Starting Skillora API
 2026-09-21 19:48:05 | INFO     | main:lifespan:38 - Database initialized
 2026-09-21 19:48:06 | INFO     | main:lifespan:42 - Redis connected
@@ -106,3 +107,5 @@ WHERE notifications.user_id = ? AND notifications.is_read = 0 ORDER BY notificat
 [parameters: [{}]]
 2026-09-21 20:08:50 | INFO     | core.middleware.request_logger:dispatch:18 - Request: GET /openapi.json | Client: 127.0.0.1
 2026-09-21 20:08:50 | INFO     | core.middleware.request_logger:dispatch:30 - Response: 200 | Path: /openapi.json | Process time: 0.030s
+=======
+>>>>>>> 80490f70230c4eaef040f55c7d022a67369fb3e4
