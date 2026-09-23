@@ -1,6 +1,6 @@
 """Auth Schemas"""
 
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 from typing import Optional
 from datetime import datetime
 import uuid
@@ -16,7 +16,7 @@ class UserBase(BaseModel):
 
 class UserRegister(UserBase):
     """User registration schema"""
-    password: str
+    password: str = Field(min_length=8, max_length=128)
 
 
 class UserLogin(BaseModel):
@@ -40,7 +40,7 @@ class PasswordResetConfirm(BaseModel):
     """Set a new password after OTP verification."""
     email: EmailStr
     otp: str
-    new_password: str
+    new_password: str = Field(min_length=8, max_length=128)
 
 
 class TokenResponse(BaseModel):

@@ -136,7 +136,6 @@ const api = {
   auth: {
     login: (email, password) => API.post("/api/auth/login", { email, password }),
     register: (userData) => API.post("/api/auth/register", userData),
-<<<<<<< HEAD
     me: () => API.get("/api/auth/me"),
     requestPasswordReset: (email) => API.post("/api/auth/forgot-password", { email }),
     verifyPasswordReset: (email, otp) => API.post("/api/auth/forgot-password/verify", { email, otp }),
@@ -145,9 +144,6 @@ const api = {
       otp,
       new_password: newPassword
     })
-=======
-    me: () => API.get("/api/auth/me")
->>>>>>> 80490f70230c4eaef040f55c7d022a67369fb3e4
   },
 
   // Mentorship Endpoints
@@ -194,7 +190,12 @@ const api = {
   // Payment Endpoints
   payments: {
     create: (sessionId, paymentMethod = "razorpay") => API.post("/api/payments/create", { session_id: sessionId, payment_method: paymentMethod }),
-    confirm: (paymentId, transactionId) => API.post(`/api/payments/confirm/${paymentId}?transaction_id=${encodeURIComponent(transactionId)}`)
+    confirm: (paymentId, transactionId, orderId, signature) => {
+      const params = new URLSearchParams({ transaction_id: transactionId });
+      if (orderId) params.set("order_id", orderId);
+      if (signature) params.set("signature", signature);
+      return API.post(`/api/payments/confirm/${paymentId}?${params.toString()}`);
+    }
   },
 
   // Notification Endpoints

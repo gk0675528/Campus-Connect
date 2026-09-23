@@ -1,6 +1,7 @@
 """Payment Schemas"""
 
 from pydantic import BaseModel
+from typing import Literal
 from datetime import datetime
 import uuid
 
@@ -8,7 +9,7 @@ import uuid
 class PaymentRequest(BaseModel):
     """Create payment request"""
     session_id: uuid.UUID
-    payment_method: str  # stripe, razorpay
+    payment_method: Literal["stripe", "razorpay"]
 
 
 class PaymentResponse(BaseModel):

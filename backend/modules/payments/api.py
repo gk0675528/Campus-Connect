@@ -1,6 +1,6 @@
 """Payment API Router"""
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from core.config.database import get_db
@@ -8,6 +8,8 @@ from core.dependencies.auth import get_current_user
 from modules.payments.services.payment_service import PaymentService
 from modules.payments.schemas import PaymentRequest, PaymentResponse
 from modules.users.models import User
+from integrations.razorpay.client import RazorpayClient
+from integrations.stripe.client import StripeClient
 
 router = APIRouter(prefix="/payments", tags=["payments"])
 
@@ -48,7 +50,9 @@ async def create_payment(
 @router.post("/confirm/{payment_id}")
 async def confirm_payment(
     payment_id: str,
-    transaction_id: str,
+    transaction_id: str = Query(..., min_length=3, max_length=255),
+    order_id: str | None = Query(None, min_length=3, max_length=255),
+    signature: str | None = Query(None, min_length=3, max_length=255),
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ):
@@ -63,6 +67,25 @@ async def confirm_payment(
     session = session_result.scalar_one_or_none()
     if not session or session.student_id != current_user.id:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Access denied")
+
+    if payment.status != "pending":
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Payment is not pending")
+
+    if payment.payment_method == "stripe":
+        try:
+            provider_payment = await StripeClient.confirm_payment(transaction_id)
+        except Exception:
+            raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY, detail="Payment provider unavailable")
+        if provider_payment["status"] != "succeeded" or provider_payment["amount"] < payment.amount:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Payment was not verified")
+    elif payment.payment_method == "razorpay":
+        if not order_id or not signature:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Razorpay order and signature are required")
+        verified = await RazorpayClient.verify_payment(transaction_id, order_id, signature)
+        if not verified:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Payment was not verified")
+    else:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Unsupported payment method")
 
     payment = await PaymentService.mark_payment_complete(
         payment_id=payment_id,

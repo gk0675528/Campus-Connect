@@ -60,6 +60,9 @@ class CommunityService:
         user_stmt = select(User).where(User.id == user_id)
         user_result = await db.execute(user_stmt)
         user = user_result.scalar_one_or_none()
+
+        if not user:
+            raise NotFoundError("User not found")
         
         if user not in community.members:
             community.members.append(user)
@@ -86,6 +89,9 @@ class CommunityService:
         user_stmt = select(User).where(User.id == user_id)
         user_result = await db.execute(user_stmt)
         user = user_result.scalar_one_or_none()
+
+        if not user:
+            raise NotFoundError("User not found")
         
         if user in community.members:
             community.members.remove(user)

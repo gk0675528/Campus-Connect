@@ -35,10 +35,7 @@
         </h1>
         <p class="lead text-white opacity-90 mb-4">
           Learn with mentors, coaches, and peers who help you grow faster and move with more clarity.
-<<<<<<< HEAD
         </p>
-=======
->>>>>>> 80490f70230c4eaef040f55c7d022a67369fb3e4
 
         <div class="d-flex align-items-center gap-3 p-3 bg-white bg-opacity-10 rounded-3 border border-white border-opacity-20 backdrop-blur">
           <div class="fs-2 text-warning"><i class="bi bi-quote"></i></div>
@@ -160,11 +157,7 @@
       const form = document.getElementById("login-form");
       const submitBtn = document.getElementById("login-submit-btn");
 
-<<<<<<< HEAD
       form?.addEventListener("submit", async (e) => {
-=======
-      form.addEventListener("submit", async (e) => {
->>>>>>> 80490f70230c4eaef040f55c7d022a67369fb3e4
         e.preventDefault();
         const email = document.getElementById("login-email").value.trim();
         const password = document.getElementById("login-password").value;
@@ -180,13 +173,10 @@
           // 1. Submit login request
           const tokenData = await api.auth.login(email, password);
 
-<<<<<<< HEAD
           if (!tokenData?.access_token) {
             throw new Error("The server did not return a valid access token.");
           }
 
-=======
->>>>>>> 80490f70230c4eaef040f55c7d022a67369fb3e4
           // 2. Save token
           Auth.login(tokenData);
 

@@ -48,17 +48,7 @@ function initPaymentCheckout() {
       UI.setLoading(payBtn, true, "Processing Payment...");
 
       try {
-        // 1. Create Payment Record on Backend
-        const payment = await api.payments.create(currentPaymentSessionId, paymentMethod);
-
-        // 2. Simulate transaction confirmation with backend
-        const simulatedTxnId = `txn_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-        const confirmedPayment = await api.payments.confirm(payment.id, simulatedTxnId);
-
-        UI.setLoading(payBtn, false);
-
-        // Show Success Modal
-        showPaymentSuccessModal(confirmedPayment);
+        throw new Error("Complete payment through the configured payment provider before confirming it.");
       } catch (err) {
         UI.setLoading(payBtn, false);
         console.error("Payment failed", err);

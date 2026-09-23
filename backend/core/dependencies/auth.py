@@ -37,6 +37,13 @@ async def get_current_user(
             detail="Invalid or expired token",
             headers={"WWW-Authenticate": "Bearer"}
         )
+
+    if payload.get("type") != "access":
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Access token required",
+            headers={"WWW-Authenticate": "Bearer"}
+        )
     
     user_id = payload.get("sub")
     if not user_id:
@@ -49,7 +56,11 @@ async def get_current_user(
     try:
         user_uuid = uuid.UUID(str(user_id))
     except (ValueError, TypeError):
-        user_uuid = user_id
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid token payload",
+            headers={"WWW-Authenticate": "Bearer"}
+        )
 
     stmt = select(User).where(User.id == user_uuid)
     result = await db.execute(stmt)

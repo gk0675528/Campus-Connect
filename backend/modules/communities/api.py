@@ -1,12 +1,12 @@
 """Community API Router"""
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from core.config.database import get_db
 from core.dependencies.auth import get_current_user
 from modules.communities.services.community_service import CommunityService
 from modules.communities.schemas import CommunityCreate, CommunityResponse, PostCreate, PostResponse
-from modules.users.models import User, Post, Comment
+from modules.users.models import User, Post, Comment, Community, community_members
 from sqlalchemy import select
 import uuid
 
@@ -16,7 +16,7 @@ router = APIRouter(prefix="/communities", tags=["communities"])
 @router.get("/", response_model=list[CommunityResponse])
 async def list_communities(
     db: AsyncSession = Depends(get_db),
-    limit: int = 20
+    limit: int = Query(20, ge=1, le=100)
 ):
     """List communities"""
     from modules.users.models import Community
@@ -86,6 +86,19 @@ async def create_post(
 ):
     """Create post in community"""
     
+    community = await CommunityService.get_community(community_id, db)
+    if not community:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Community not found")
+
+    membership = await db.execute(
+        select(community_members).where(
+            community_members.c.community_id == uuid.UUID(community_id),
+            community_members.c.user_id == current_user.id,
+        )
+    )
+    if membership.first() is None:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Join the community before posting")
+
     post = Post(
         id=uuid.uuid4(),
         community_id=uuid.UUID(community_id),
@@ -105,7 +118,7 @@ async def create_post(
 async def get_community_posts(
     community_id: str,
     db: AsyncSession = Depends(get_db),
-    limit: int = 20
+    limit: int = Query(20, ge=1, le=100)
 ):
     """Get community posts"""
     
