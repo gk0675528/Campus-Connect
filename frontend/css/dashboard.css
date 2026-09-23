@@ -1,0 +1,418 @@
+/* ==========================================================================
+   CampusConnect - Dashboard Layout & Navigation Stylesheet
+   ========================================================================== */
+
+.app-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--cc-bg);
+}
+
+/* Sidebar */
+.app-sidebar {
+  width: 260px;
+  background: var(--cc-surface);
+  border-right: 1px solid var(--cc-border);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  transition: var(--transition-normal);
+}
+
+.sidebar-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--cc-border-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+
+.sidebar-brand-img {
+  height: 36px;
+  width: auto;
+}
+
+.sidebar-nav {
+  padding: 1.25rem 0.875rem;
+  flex-grow: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.nav-section-title {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.75px;
+  color: var(--cc-muted);
+  padding: 0.75rem 0.75rem 0.35rem;
+}
+
+.nav-item-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 0.875rem;
+  color: var(--cc-text-secondary);
+  font-weight: 500;
+  font-size: 0.9375rem;
+  border-radius: var(--radius-md);
+  transition: var(--transition-fast);
+  text-decoration: none;
+}
+
+.nav-item-link i {
+  font-size: 1.15rem;
+  color: var(--cc-muted);
+  transition: var(--transition-fast);
+}
+
+.nav-item-link:hover {
+  background-color: var(--cc-bg);
+  color: var(--cc-primary);
+}
+
+.nav-item-link:hover i {
+  color: var(--cc-primary);
+}
+
+.nav-item-link.active {
+  background-color: var(--cc-primary-light);
+  color: var(--cc-primary);
+  font-weight: 600;
+}
+
+.nav-item-link.active i {
+  color: var(--cc-primary);
+}
+
+.nav-badge {
+  margin-left: auto;
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-full);
+}
+
+.sidebar-footer {
+  padding: 1rem 1.25rem;
+  border-top: 1px solid var(--cc-border-light);
+  background: #FAFAFC;
+}
+
+.sidebar-user-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+}
+
+.sidebar-user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  background: var(--cc-primary-light);
+  color: var(--cc-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9375rem;
+}
+
+.sidebar-user-info {
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.sidebar-user-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--cc-text);
+  margin-bottom: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-user-role {
+  font-size: 0.75rem;
+  color: var(--cc-muted);
+  text-transform: capitalize;
+}
+
+/* Main Content Wrapper */
+.app-main {
+  flex-grow: 1;
+  margin-left: 260px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Topbar */
+.app-topbar {
+  height: 70px;
+  background: var(--cc-surface);
+  border-bottom: 1px solid var(--cc-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 990;
+}
+
+.topbar-search {
+  position: relative;
+  width: 380px;
+}
+
+.topbar-search input {
+  padding-left: 2.5rem;
+  height: 40px;
+  background-color: var(--cc-bg);
+  border-radius: var(--radius-full);
+  font-size: 0.875rem;
+}
+
+.topbar-search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--cc-muted);
+  pointer-events: none;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+}
+
+.topbar-btn {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  background: var(--cc-bg);
+  border: 1px solid var(--cc-border);
+  color: var(--cc-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  transition: var(--transition-fast);
+  text-decoration: none;
+}
+
+.topbar-btn:hover {
+  background: var(--cc-primary-light);
+  color: var(--cc-primary);
+  border-color: rgba(91, 61, 245, 0.3);
+}
+
+.topbar-badge {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  background: var(--cc-danger);
+  color: #FFFFFF;
+  font-size: 0.65rem;
+  font-weight: 700;
+  width: 18px;
+  height: 18px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #FFFFFF;
+}
+
+/* Page Body Container */
+.app-content {
+  padding: 2rem;
+  flex-grow: 1;
+}
+
+.page-header {
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.page-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--cc-text);
+  margin-bottom: 0.25rem;
+}
+
+.page-subtitle {
+  font-size: 0.9375rem;
+  color: var(--cc-muted);
+  margin-bottom: 0;
+}
+
+/* Stats / Metric Card */
+.stat-card {
+  background: var(--cc-surface);
+  border: 1px solid var(--cc-border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  transition: var(--transition-fast);
+}
+
+.stat-card:hover {
+  border-color: #CBD5E1;
+  box-shadow: var(--shadow-sm);
+}
+
+.stat-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.stat-icon-purple { background: var(--cc-primary-light); color: var(--cc-primary); }
+.stat-icon-blue { background: var(--cc-info-bg); color: var(--cc-info); }
+.stat-icon-green { background: var(--cc-success-bg); color: var(--cc-success); }
+.stat-icon-amber { background: var(--cc-warning-bg); color: var(--cc-warning); }
+
+.stat-content {
+  flex-grow: 1;
+}
+
+.stat-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--cc-muted);
+  margin-bottom: 0.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-value {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: var(--cc-text);
+  line-height: 1.1;
+  margin-bottom: 0;
+}
+
+/* Mentorship Journey Step Tracker */
+.journey-tracker {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  padding: 1rem 0;
+}
+
+.journey-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  flex: 1;
+}
+
+.journey-step-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-full);
+  background: var(--cc-surface);
+  border: 2px solid var(--cc-border);
+  color: var(--cc-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  margin-bottom: 0.5rem;
+  transition: var(--transition-fast);
+}
+
+.journey-step.active .journey-step-circle {
+  border-color: var(--cc-primary);
+  background: var(--cc-primary);
+  color: #FFFFFF;
+  box-shadow: 0 0 0 4px var(--cc-primary-light);
+}
+
+.journey-step.completed .journey-step-circle {
+  border-color: var(--cc-success);
+  background: var(--cc-success);
+  color: #FFFFFF;
+}
+
+.journey-step-title {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--cc-text);
+}
+
+/* Mobile Bottom Navigation */
+.mobile-bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: var(--cc-surface);
+  border-top: 1px solid var(--cc-border);
+  z-index: 1050;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 0.5rem;
+}
+
+.mobile-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--cc-muted);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 0.25rem;
+  flex: 1;
+}
+
+.mobile-nav-item i {
+  font-size: 1.25rem;
+  margin-bottom: 2px;
+}
+
+.mobile-nav-item.active {
+  color: var(--cc-primary);
+}

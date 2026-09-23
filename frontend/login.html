@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — Skillora</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logos/favicon.svg">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap 5 CSS & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  
+  <!-- Custom Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="auth-wrapper">
+    <!-- Left Hero Side -->
+    <div class="auth-hero-side">
+      <div>
+        <a href="index.html">
+          <img src="assets/logos/logo-white.svg" alt="CampusConnect Logo" height="42">
+        </a>
+      </div>
+
+      <div class="my-auto py-5">
+        <h1 class="display-5 font-heading fw-extrabold text-white mb-3">
+          Your Mentorship Journey Continues Here.
+        </h1>
+        <p class="lead text-white opacity-90 mb-4">
+          Learn with mentors, coaches, and peers who help you grow faster and move with more clarity.
+        </p>
+
+        <div class="d-flex align-items-center gap-3 p-3 bg-white bg-opacity-10 rounded-3 border border-white border-opacity-20 backdrop-blur">
+          <div class="fs-2 text-warning"><i class="bi bi-quote"></i></div>
+          <div class="small text-white opacity-95">
+            "Seniors become mentors. Mentors become experts. Experts guide future leaders."
+          </div>
+        </div>
+      </div>
+
+      <div class="small text-white opacity-75">
+        © 2026 Skillora. Learn Better. Connect Smarter. Grow Together.
+      </div>
+    </div>
+
+    <!-- Right Form Side -->
+    <div class="auth-form-side">
+      <div class="auth-card">
+        <div class="auth-header">
+          <h2 class="auth-title">Welcome back</h2>
+          <p class="auth-subtitle">Sign in with your Skillora account</p>
+        </div>
+
+        <!-- Session Expired Alert if any -->
+        <div id="session-alert" class="alert alert-warning small p-2.5 mb-3 d-none">
+          <i class="bi bi-clock-history me-1"></i> Your session has expired. Please sign in again.
+        </div>
+
+        <form id="login-form">
+          <div class="mb-3">
+            <label class="form-label" for="login-email">Email Address <span class="text-danger">*</span></label>
+            <input type="email" class="form-control" id="login-email" placeholder="name@college.edu" required autocomplete="email">
+          </div>
+
+          <div class="mb-3">
+            <div class="d-flex justify-content-between align-items-center">
+              <label class="form-label mb-0" for="login-password">Password <span class="text-danger">*</span></label>
+              <a href="forgot-password.html" class="small text-primary fw-semibold">Forgot password?</a>
+            </div>
+            <div class="password-input-wrap mt-1">
+              <input type="password" class="form-control" id="login-password" placeholder="Enter your password" required autocomplete="current-password">
+              <button type="button" class="password-toggle-btn" id="toggle-pwd-btn" aria-label="Show or hide password">
+                <i class="bi bi-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="d-flex align-items-center justify-content-between mb-4">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="remember-me" checked>
+              <label class="form-check-label small text-secondary" for="remember-me">
+                Remember me on this device
+              </label>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100 btn-lg mb-3" id="login-submit-btn">
+            Sign In to Skillora
+          </button>
+
+          <div class="auth-divider">
+            <span>or sign in with</span>
+          </div>
+
+          <div class="row g-2">
+            <div class="col-6">
+              <button type="button" class="social-auth-btn" id="google-auth-btn">
+                <i class="bi bi-google text-danger"></i> Google
+              </button>
+            </div>
+            <div class="col-6">
+              <button type="button" class="social-auth-btn" id="linkedin-auth-btn">
+                <i class="bi bi-linkedin text-primary"></i> LinkedIn
+              </button>
+            </div>
+          </div>
+
+          <p class="text-center small text-secondary mt-4 mb-0">
+            Don't have an account? <a href="register.html" class="fw-bold text-primary">Create an account</a>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Check if session was expired
+      if (Utils.getParam("session") === "expired") {
+        document.getElementById("session-alert")?.classList.remove("d-none");
+      }
+
+      // Toggle Password Visibility
+      const pwdInput = document.getElementById("login-password");
+      const toggleBtn = document.getElementById("toggle-pwd-btn");
+      if (toggleBtn && pwdInput) {
+        toggleBtn.addEventListener("click", () => {
+          const isPwd = pwdInput.type === "password";
+          pwdInput.type = isPwd ? "text" : "password";
+          toggleBtn.innerHTML = isPwd ? '<i class="bi bi-eye-slash"></i>' : '<i class="bi bi-eye"></i>';
+        });
+      }
+
+      // Social Auth Placeholders
+      document.getElementById("google-auth-btn")?.addEventListener("click", () => {
+        UI.toast({ type: "info", title: "OAuth Notice", message: "Google OAuth route will be enabled as backend endpoint is activated." });
+      });
+      document.getElementById("linkedin-auth-btn")?.addEventListener("click", () => {
+        UI.toast({ type: "info", title: "OAuth Notice", message: "LinkedIn OAuth route will be enabled as backend endpoint is activated." });
+      });
+
+      // Login Form Submit
+      const form = document.getElementById("login-form");
+      const submitBtn = document.getElementById("login-submit-btn");
+
+      form?.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = document.getElementById("login-email").value.trim();
+        const password = document.getElementById("login-password").value;
+
+        if (!email || !password) {
+          UI.toast({ type: "warning", title: "Required", message: "Please enter your email and password." });
+          return;
+        }
+
+        UI.setLoading(submitBtn, true, "Signing in...");
+
+        try {
+          // 1. Submit login request
+          const tokenData = await api.auth.login(email, password);
+
+          if (!tokenData?.access_token) {
+            throw new Error("The server did not return a valid access token.");
+          }
+
+          // 2. Save token
+          Auth.login(tokenData);
+
+          // 3. Fetch user profile
+          const user = await api.auth.me();
+          Auth.login(tokenData, user);
+
+          UI.setLoading(submitBtn, false);
+
+          UI.toast({
+            type: "success",
+            title: "Welcome Back!",
+            message: `Logged in as ${user.first_name || user.username}`
+          });
+
+          // 4. Redirect by role or return URL
+          const returnUrl = Utils.getParam("return_url");
+          setTimeout(() => {
+            if (returnUrl) {
+              window.location.href = decodeURIComponent(returnUrl);
+            } else {
+              Auth.redirectByRole(user);
+            }
+          }, 800);
+        } catch (err) {
+          UI.setLoading(submitBtn, false);
+          console.error("Login error", err);
+          UI.toast({
+            type: "error",
+            title: "Sign In Failed",
+            message: err.message || "Invalid email or password."
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
