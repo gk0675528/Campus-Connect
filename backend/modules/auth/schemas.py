@@ -25,7 +25,6 @@ class UserLogin(BaseModel):
     password: str
 
 
-<<<<<<< HEAD
 class PasswordResetRequest(BaseModel):
     """Request a password reset OTP."""
     email: EmailStr
@@ -44,8 +43,6 @@ class PasswordResetConfirm(BaseModel):
     new_password: str
 
 
-=======
->>>>>>> 80490f70230c4eaef040f55c7d022a67369fb3e4
 class TokenResponse(BaseModel):
     """Token response schema"""
     access_token: str

@@ -13,6 +13,7 @@ from core.config.settings import settings
 from core.config.database import init_db, engine
 from core.config.logging import logger as app_logger
 from core.config.redis import connect_redis, disconnect_redis, get_redis
+from core.config.mongodb import connect_mongodb, disconnect_mongodb, mongodb_is_available
 
 # Import middleware
 from core.middleware.request_logger import RequestLoggerMiddleware
@@ -40,6 +41,9 @@ async def lifespan(app: FastAPI):
         # Connect to Redis
         await connect_redis()
         app_logger.info("Redis connected")
+
+        await connect_mongodb()
+        app_logger.info("MongoDB document store initialized")
         
     except Exception as e:
         app_logger.error(f"Startup error: {str(e)}")
@@ -54,6 +58,9 @@ async def lifespan(app: FastAPI):
         # Disconnect Redis
         await disconnect_redis()
         app_logger.info("Redis disconnected")
+
+        await disconnect_mongodb()
+        app_logger.info("MongoDB document store closed")
         
         # Close database connections
         await engine.dispose()
@@ -78,10 +85,7 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origins,
-<<<<<<< HEAD
     allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1)(:\d+)?$",
-=======
->>>>>>> 80490f70230c4eaef040f55c7d022a67369fb3e4
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -101,6 +105,7 @@ async def health_check():
         async with engine.connect() as connection:
             await connection.execute(text("SELECT 1"))
         await (await get_redis()).ping()
+        mongo_available = await mongodb_is_available()
     except Exception:
         app_logger.exception("Health check failed")
         return JSONResponse(
@@ -108,7 +113,11 @@ async def health_check():
             content={"status": "unhealthy", "version": settings.APP_VERSION},
         )
 
-    return {"status": "healthy", "version": settings.APP_VERSION}
+    return {
+        "status": "healthy",
+        "version": settings.APP_VERSION,
+        "document_store": "connected" if mongo_available else "unavailable",
+    }
 
 
 # Include routers with API prefix

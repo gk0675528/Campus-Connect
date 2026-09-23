@@ -31,6 +31,19 @@ services:
       timeout: 5s
       retries: 5
 
+  mongodb:
+    image: mongo:7
+    container_name: campusconnect-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   api:
     build:
       context: .
@@ -42,6 +55,8 @@ services:
     environment:
       - DATABASE_URL=postgresql+asyncpg://campusconnect:${POSTGRES_PASSWORD:-changeme}@postgres:5432/campusconnect
       - REDIS_URL=redis://redis:6379/0
+      - MONGODB_URL=mongodb://mongodb:27017
+      - MONGODB_DATABASE=campusconnect
       - DEBUG=False
       - SECRET_KEY=${SECRET_KEY:?Set SECRET_KEY before starting the API}
       - CORS_ORIGINS=${CORS_ORIGINS:-http://localhost:3000}
@@ -50,6 +65,8 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+      mongodb:
+        condition: service_healthy
     volumes:
       - .:/app
     restart: unless-stopped
@@ -57,6 +74,7 @@ services:
 volumes:
   postgres_data:
   redis_data:
+  mongodb_data:
 
 networks:
   default:
