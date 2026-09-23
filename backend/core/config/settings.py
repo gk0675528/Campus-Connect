@@ -28,10 +28,7 @@ class Settings(BaseSettings):
     
     # JWT
     SECRET_KEY: str = os.getenv("SECRET_KEY", "your-secret-key-change-in-production")
-<<<<<<< HEAD
     EXPOSE_RESET_OTP: bool = os.getenv("EXPOSE_RESET_OTP", "False") == "True"
-=======
->>>>>>> 80490f70230c4eaef040f55c7d022a67369fb3e4
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
