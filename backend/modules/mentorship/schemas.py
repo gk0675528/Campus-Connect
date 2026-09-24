@@ -1,6 +1,6 @@
 """Mentorship Schemas"""
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional, List
 from datetime import datetime
 import uuid
@@ -35,7 +35,9 @@ class MentorResponse(BaseModel):
 class MentorSearchRequest(BaseModel):
     """Search mentors request"""
     skills: Optional[List[str]] = None
-    limit: int = 20
+    page: int = Field(default=1, ge=1)
+    page_size: int = Field(default=20, ge=1, le=50)
+    limit: Optional[int] = Field(default=None, ge=1, le=50)
 
 
 class SessionCostResponse(BaseModel):
@@ -47,4 +49,3 @@ class SessionCostResponse(BaseModel):
     platform_commission: float
     mentor_receives: float
     commission_rate: float
-

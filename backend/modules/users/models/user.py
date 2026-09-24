@@ -1,6 +1,21 @@
 """Database Models"""
 
-from sqlalchemy import Column, String, Integer, Float, DateTime, Boolean, Text, ForeignKey, Table, Uuid, JSON
+from sqlalchemy import (
+    Boolean,
+    CheckConstraint,
+    Column,
+    DateTime,
+    Float,
+    ForeignKey,
+    Index,
+    Integer,
+    JSON,
+    String,
+    Table,
+    Text,
+    UniqueConstraint,
+    Uuid,
+)
 from sqlalchemy.orm import relationship
 from core.config.database import Base
 from core.config.constants import *
@@ -34,6 +49,9 @@ post_upvotes = Table(
 class User(Base):
     """User Model"""
     __tablename__ = "users"
+    __table_args__ = (
+        Index("ix_users_mentor_search", "is_mentor", "is_active", "mentor_verified", "mentor_rating"),
+    )
     
     id = Column(Uuid(as_uuid=True), primary_key=True, default=uuid.uuid4)
     email = Column(String(255), unique=True, nullable=False, index=True)
@@ -104,6 +122,11 @@ class User(Base):
 class Session(Base):
     """Mentorship Session Model"""
     __tablename__ = "sessions"
+    __table_args__ = (
+        CheckConstraint("student_rating IS NULL OR (student_rating >= 1 AND student_rating <= 5)", name="ck_sessions_student_rating_range"),
+        UniqueConstraint("student_id", "idempotency_key", name="uq_sessions_student_idempotency"),
+        Index("ix_sessions_mentor_status_schedule", "mentor_id", "status", "scheduled_at"),
+    )
     
     id = Column(Uuid(as_uuid=True), primary_key=True, default=uuid.uuid4)
     mentor_id = Column(Uuid(as_uuid=True), ForeignKey("users.id"), nullable=False)
@@ -120,18 +143,19 @@ class Session(Base):
     mentor_receives = Column(Float, nullable=False, default=0.0)
     
     # Scheduling
-    scheduled_at = Column(DateTime, nullable=False)
-    started_at = Column(DateTime, nullable=True)
-    ended_at = Column(DateTime, nullable=True)
+    scheduled_at = Column(DateTime(timezone=True), nullable=False)
+    started_at = Column(DateTime(timezone=True), nullable=True)
+    ended_at = Column(DateTime(timezone=True), nullable=True)
     
     # Status
     status = Column(String(50), default=SessionStatus.PENDING)
     meeting_link = Column(String(500), nullable=True)
     
     # Feedback
-    student_rating = Column(Float, nullable=True)
+    student_rating = Column(Integer, nullable=True)
     student_review = Column(Text, nullable=True)
     mentor_feedback = Column(Text, nullable=True)
+    idempotency_key = Column(String(128), nullable=True)
     
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
@@ -300,4 +324,3 @@ class VerificationRequest(Base):
     
     submitted_at = Column(DateTime, default=datetime.utcnow)
     reviewed_at = Column(DateTime, nullable=True)
-

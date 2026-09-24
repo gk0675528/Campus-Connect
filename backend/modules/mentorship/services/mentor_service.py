@@ -1,7 +1,8 @@
 """Mentor Service"""
 
+from sqlalchemy import String, cast, or_, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, update
+from sqlalchemy.orm import load_only
 from modules.users.models import User
 from core.config.constants import MENTORSHIP_COST_RULES
 import logging
@@ -67,25 +68,60 @@ class MentorService:
     async def search_mentors(
         skills: list = None,
         db: AsyncSession = None,
-        limit: int = 20
+        page: int = 1,
+        page_size: int = 20,
     ) -> list:
         """Search mentors by skills"""
-        query = select(User).where(User.is_mentor == True)
-        result = await db.execute(query)
-        mentors = list(result.scalars().all())
-        
+        query = (
+            select(User)
+            .options(
+                load_only(
+                    User.id,
+                    User.first_name,
+                    User.last_name,
+                    User.bio,
+                    User.mentor_bio,
+                    User.mentor_expertise,
+                    User.skills,
+                    User.mentor_hourly_rate,
+                    User.mentor_rating,
+                    User.mentor_total_sessions,
+                    User.college,
+                    User.role,
+                    User.is_mentor,
+                    User.mentor_verified,
+                )
+            )
+            .where(
+                User.is_mentor == True,
+                User.is_active == True,
+                User.mentor_verified == True,
+            )
+        )
+
         if skills:
             skills_clean = [str(s).lower().strip() for s in skills if str(s).strip()]
             if skills_clean:
-                filtered = []
-                for m in mentors:
-                    m_exp = [str(x).lower() for x in (m.mentor_expertise or m.skills or [])]
-                    # Check if any requested skill matches mentor expertise or bio
-                    if any(any(s in exp or exp in s for exp in m_exp) for s in skills_clean):
-                        filtered.append(m)
-                mentors = filtered
-        
-        return mentors[:limit]
+                text_fields = [
+                    cast(User.mentor_expertise, String),
+                    cast(User.skills, String),
+                    User.mentor_bio,
+                    User.bio,
+                ]
+                query = query.where(
+                    or_(
+                        *[
+                            or_(*[field.ilike(f"%{skill}%") for field in text_fields])
+                            for skill in skills_clean
+                        ]
+                    )
+                )
+
+        query = query.order_by(User.mentor_rating.desc(), User.mentor_total_sessions.desc(), User.created_at.desc())
+        offset = (page - 1) * page_size
+        query = query.offset(offset).limit(page_size)
+        result = await db.execute(query)
+        return list(result.scalars().all())
     
     @staticmethod
     async def get_mentor_rating(mentor_id: str, db: AsyncSession) -> float:
@@ -131,4 +167,3 @@ class MentorService:
             "mentor_receives": float(mentor_receives),
             "commission_rate": float(platform_commission)
         }
-
