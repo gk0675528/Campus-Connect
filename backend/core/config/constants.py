@@ -27,8 +27,9 @@ class SessionStatus:
     CONFIRMED = "confirmed"
     COMPLETED = "completed"
     CANCELLED = "cancelled"
-    
-    CHOICES = [PENDING, CONFIRMED, COMPLETED, CANCELLED]
+    REJECTED = "rejected"
+
+    CHOICES = [PENDING, CONFIRMED, COMPLETED, CANCELLED, REJECTED]
 
 
 # Payment Status

@@ -1,6 +1,6 @@
 """Booking API Router"""
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, Header, HTTPException, status
 from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 from core.config.database import get_db
@@ -10,6 +10,8 @@ from modules.bookings.schemas import BookingRequest, BookingResponse, SessionFee
 from modules.mentorship.services.mentor_service import MentorService
 from modules.users.models import User
 from core.config.settings import settings
+from core.config.constants import SessionStatus
+from core.exceptions.auth_exceptions import ConflictError
 
 router = APIRouter(prefix="/bookings", tags=["bookings"])
 
@@ -18,6 +20,7 @@ router = APIRouter(prefix="/bookings", tags=["bookings"])
 async def create_booking(
     booking_request: BookingRequest,
     current_user: User = Depends(get_current_user),
+    idempotency_key: str | None = Header(default=None, alias="Idempotency-Key"),
     db: AsyncSession = Depends(get_db)
 ):
     """Create a booking"""
@@ -36,18 +39,22 @@ async def create_booking(
     )
     
     # Create booking
-    session = await BookingService.create_booking(
-        mentor_id=str(booking_request.mentor_id),
-        student_id=str(current_user.id),
-        scheduled_at=booking_request.scheduled_at,
-        duration_minutes=booking_request.duration_minutes,
-        title=booking_request.title,
-        description=booking_request.description,
-        student_pays=cost["student_pays"],
-        mentor_receives=cost["mentor_receives"],
-        platform_commission=cost["platform_commission"],
-        db=db
-    )
+    try:
+        session = await BookingService.create_booking(
+            mentor_id=str(booking_request.mentor_id),
+            student_id=str(current_user.id),
+            scheduled_at=booking_request.scheduled_at,
+            duration_minutes=booking_request.duration_minutes,
+            title=booking_request.title,
+            description=booking_request.description,
+            student_pays=cost["student_pays"],
+            mentor_receives=cost["mentor_receives"],
+            platform_commission=cost["platform_commission"],
+            idempotency_key=idempotency_key or booking_request.idempotency_key,
+            db=db
+        )
+    except ConflictError as exc:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=exc.detail)
     
     return session
 
@@ -110,7 +117,14 @@ async def add_session_feedback(
         student_rating=feedback.rating,
         student_review=feedback.review
     )
+
+    if session.status != SessionStatus.COMPLETED:
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Feedback is allowed only for completed sessions")
+    if session.student_rating is not None:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Feedback already exists for this session")
+
     await db.execute(stmt)
     await db.commit()
+    await db.refresh(session)
     
-    return {"message": "Feedback added"}
+    return {"message": "Feedback added", "session": session}
