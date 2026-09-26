@@ -14,8 +14,10 @@ logger = logging.getLogger(__name__)
 def _to_uuid(val):
     if val is None:
         return None
+
     if isinstance(val, uuid.UUID):
         return val
+
     try:
         return uuid.UUID(str(val))
     except (ValueError, TypeError):
@@ -24,7 +26,7 @@ def _to_uuid(val):
 
 class MentorService:
     """Mentor Marketplace Service"""
-    
+
     @staticmethod
     async def become_mentor(
         user_id: str,
@@ -34,44 +36,72 @@ class MentorService:
         db: AsyncSession
     ) -> User:
         """Make user a mentor"""
+
         uid = _to_uuid(user_id)
-        stmt = update(User).where(User.id == uid).values(
-            is_mentor=True,
-            mentor_hourly_rate=hourly_rate,
-            mentor_expertise=expertise,
-            mentor_bio=bio
+
+        stmt = (
+            update(User)
+            .where(User.id == uid)
+            .values(
+                is_mentor=True,
+                mentor_hourly_rate=hourly_rate,
+                mentor_expertise=expertise,
+                mentor_bio=bio
+            )
         )
+
         await db.execute(stmt)
         await db.commit()
-        
+
         user = await MentorService.get_user(user_id, db)
+
         logger.info(f"User {user_id} became mentor")
+
         return user
-    
+
     @staticmethod
-    async def get_mentor(mentor_id: str, db: AsyncSession) -> User:
+    async def get_mentor(
+        mentor_id: str,
+        db: AsyncSession
+    ) -> User:
         """Get mentor details"""
+
         uid = _to_uuid(mentor_id)
-        stmt = select(User).where((User.id == uid) & (User.is_mentor == True))
+
+        stmt = select(User).where(
+            (User.id == uid) &
+            (User.is_mentor == True)
+        )
+
         result = await db.execute(stmt)
+
         return result.scalar_one_or_none()
-    
+
     @staticmethod
-    async def get_user(user_id: str, db: AsyncSession) -> User:
+    async def get_user(
+        user_id: str,
+        db: AsyncSession
+    ) -> User:
         """Get user"""
+
         uid = _to_uuid(user_id)
+
         stmt = select(User).where(User.id == uid)
+
         result = await db.execute(stmt)
+
         return result.scalar_one_or_none()
-    
+
     @staticmethod
     async def search_mentors(
         skills: list = None,
         db: AsyncSession = None,
         page: int = 1,
         page_size: int = 20,
+        limit: int = None,
     ) -> list:
         """Search mentors by skills"""
+
         query = (
             select(User)
             .options(
@@ -99,8 +129,16 @@ class MentorService:
             )
         )
 
+        # -----------------------------------------
+        # Skill filtering
+        # -----------------------------------------
         if skills:
-            skills_clean = [str(s).lower().strip() for s in skills if str(s).strip()]
+            skills_clean = [
+                str(skill).lower().strip()
+                for skill in skills
+                if str(skill).strip()
+            ]
+
             if skills_clean:
                 text_fields = [
                     cast(User.mentor_expertise, String),
@@ -108,29 +146,85 @@ class MentorService:
                     User.mentor_bio,
                     User.bio,
                 ]
+
                 query = query.where(
                     or_(
                         *[
-                            or_(*[field.ilike(f"%{skill}%") for field in text_fields])
+                            or_(
+                                *[
+                                    field.ilike(f"%{skill}%")
+                                    for field in text_fields
+                                ]
+                            )
                             for skill in skills_clean
                         ]
                     )
                 )
 
-        query = query.order_by(User.mentor_rating.desc(), User.mentor_total_sessions.desc(), User.created_at.desc())
-        offset = (page - 1) * page_size
-        query = query.offset(offset).limit(page_size)
+        # -----------------------------------------
+        # Sorting
+        # -----------------------------------------
+        query = query.order_by(
+            User.mentor_rating.desc(),
+            User.mentor_total_sessions.desc(),
+            User.created_at.desc()
+        )
+
+        # -----------------------------------------
+        # Pagination / Limit
+        # -----------------------------------------
+        if limit is not None:
+            # API request:
+            # /api/mentors/search?limit=30
+            query = query.limit(limit)
+
+        else:
+            # Normal pagination:
+            # page=1&page_size=20
+            offset = (page - 1) * page_size
+
+            query = (
+                query
+                .offset(offset)
+                .limit(page_size)
+            )
+
+        # -----------------------------------------
+        # Execute query
+        # -----------------------------------------
         result = await db.execute(query)
-        return list(result.scalars().all())
-    
+
+        mentors = list(result.scalars().all())
+
+        logger.info(
+            f"Mentor search completed: "
+            f"skills={skills}, "
+            f"page={page}, "
+            f"page_size={page_size}, "
+            f"limit={limit}, "
+            f"results={len(mentors)}"
+        )
+
+        return mentors
+
     @staticmethod
-    async def get_mentor_rating(mentor_id: str, db: AsyncSession) -> float:
+    async def get_mentor_rating(
+        mentor_id: str,
+        db: AsyncSession
+    ) -> float:
         """Get mentor average rating"""
+
         uid = _to_uuid(mentor_id)
-        stmt = select(User.mentor_rating).where(User.id == uid)
+
+        stmt = (
+            select(User.mentor_rating)
+            .where(User.id == uid)
+        )
+
         result = await db.execute(stmt)
+
         return result.scalar_one_or_none() or 0.0
-    
+
     @staticmethod
     def calculate_session_cost(
         mentor: User,
@@ -139,25 +233,58 @@ class MentorService:
         platform_commission: float = 0.15
     ) -> dict:
         """Calculate session cost based on rules"""
-        
+
         base_rate = mentor.mentor_hourly_rate or 100.0
-        hourly_cost = base_rate * (duration_minutes / 60.0)
-        
-        # Apply rules
+
+        hourly_cost = base_rate * (
+            duration_minutes / 60.0
+        )
+
+        # -----------------------------------------
+        # Apply discount rules
+        # -----------------------------------------
         discount_multiplier = 1.0
-        
-        if mentor.college and student.college and mentor.college.strip().lower() == student.college.strip().lower():
+
+        if (
+            mentor.college
+            and student.college
+            and mentor.college.strip().lower()
+            == student.college.strip().lower()
+        ):
             if mentor.role in ["professor"]:
-                discount_multiplier = 0.0  # Free
+                # Free
+                discount_multiplier = 0.0
+
             elif mentor.role in ["peer_mentor"]:
-                discount_multiplier = 0.0  # Free
-            elif mentor.role in ["alumni", "researcher", "industry_expert"]:
-                discount_multiplier = 0.55  # 45% discount
-        
-        student_cost = round(hourly_cost * discount_multiplier, 2)
-        commission = round(student_cost * platform_commission, 2)
-        mentor_receives = round(student_cost - commission, 2)
-        
+                # Free
+                discount_multiplier = 0.0
+
+            elif mentor.role in [
+                "alumni",
+                "researcher",
+                "industry_expert"
+            ]:
+                # 45% discount
+                discount_multiplier = 0.55
+
+        # -----------------------------------------
+        # Calculate costs
+        # -----------------------------------------
+        student_cost = round(
+            hourly_cost * discount_multiplier,
+            2
+        )
+
+        commission = round(
+            student_cost * platform_commission,
+            2
+        )
+
+        mentor_receives = round(
+            student_cost - commission,
+            2
+        )
+
         return {
             "base_rate": float(base_rate),
             "hourly_cost": float(hourly_cost),
