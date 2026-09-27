@@ -104,7 +104,8 @@ async def health_check():
     try:
         async with engine.connect() as connection:
             await connection.execute(text("SELECT 1"))
-        await (await get_redis()).ping()
+        redis_client = await get_redis()
+        await redis_client.ping()
         mongo_available = await mongodb_is_available()
     except Exception:
         app_logger.exception("Health check failed")
