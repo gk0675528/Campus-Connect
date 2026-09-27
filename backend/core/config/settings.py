@@ -3,6 +3,7 @@ import secrets
 from pathlib import Path
 from typing import Optional
 
+from dotenv import load_dotenv
 from pydantic import model_validator
 from pydantic_settings import BaseSettings
 
@@ -10,10 +11,17 @@ from pydantic_settings import BaseSettings
 BASE_DIR = Path(__file__).resolve().parents[2]
 DEFAULT_DB_PATH = BASE_DIR / "campusconnect.db"
 
+for _candidate in (
+    BASE_DIR / ".env",
+    BASE_DIR.parent / ".env",
+):
+    if _candidate.exists():
+        load_dotenv(_candidate, override=False)
+
 
 class Settings(BaseSettings):
     """Application Settings"""
-    
+
     # App
     APP_NAME: str = os.getenv("APP_NAME", "CampusConnect")
     APP_VERSION: str = "1.1.0"
@@ -98,8 +106,9 @@ class Settings(BaseSettings):
     PLATFORM_COMMISSION_DEFAULT: float = 0.15
     
     class Config:
-        env_file = ".env"
+        env_file = str(BASE_DIR / ".env")
         case_sensitive = True
+        extra = "ignore"
 
     @property
     def is_production_like(self) -> bool:

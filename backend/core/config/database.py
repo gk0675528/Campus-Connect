@@ -52,12 +52,24 @@ async def get_db():
 
 
 async def init_db():
-    """Initialize database tables via Alembic migrations.
-    
-    NOTE: Do NOT call Base.metadata.create_all() here.
-    Alembic handles all schema creation during deployment.
-    Calling both causes conflicts and migration failures.
+    """Initialize database tables if they do not exist.
+
+    Local development environments often start with an empty database, so
+    we create the schema automatically before any seeding happens. In
+    production, deployment scripts should still run Alembic migrations
+    before starting the app.
     """
+    try:
+        from sqlalchemy import inspect
+
+        async with engine.begin() as conn:
+            inspector = inspect(conn)
+            if not inspector.get_table_names():
+                await conn.run_sync(Base.metadata.create_all)
+                logger.info("Created missing database tables")
+    except Exception as e:
+        logger.warning(f"Database schema initialization note: {e}")
+
     # Auto-seed if database has no users
     try:
         from database.seeders.users import seed_users
