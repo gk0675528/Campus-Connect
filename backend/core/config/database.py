@@ -60,11 +60,12 @@ async def init_db():
     before starting the app.
     """
     try:
-        from sqlalchemy import inspect
+        def has_tables(sync_conn):
+            from sqlalchemy import inspect
+            return bool(inspect(sync_conn).get_table_names())
 
         async with engine.begin() as conn:
-            inspector = inspect(conn)
-            if not inspector.get_table_names():
+            if not await conn.run_sync(has_tables):
                 await conn.run_sync(Base.metadata.create_all)
                 logger.info("Created missing database tables")
     except Exception as e:
