@@ -6,7 +6,10 @@ from sqlalchemy import pool
 from alembic import context
 from core.config.database import Base
 from core.config.settings import settings
+
+# Import ALL model modules to register them with Base.metadata
 from modules.users import models  # noqa: F401
+from modules.profiles.models import profile  # noqa: F401
 
 # this is the Alembic Config object
 config = context.config

@@ -52,12 +52,12 @@ async def get_db():
 
 
 async def init_db():
-    """Initialize database tables and seed sample data if empty"""
-    import modules.users.models  # noqa: F401
-    import modules.profiles.models  # noqa: F401
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
+    """Initialize database tables via Alembic migrations.
     
+    NOTE: Do NOT call Base.metadata.create_all() here.
+    Alembic handles all schema creation during deployment.
+    Calling both causes conflicts and migration failures.
+    """
     # Auto-seed if database has no users
     try:
         from database.seeders.users import seed_users
@@ -77,4 +77,3 @@ async def drop_db():
     """Drop all database tables"""
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.drop_all)
-
