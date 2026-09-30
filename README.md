@@ -98,10 +98,10 @@ The frontend sends requests to `/api/...` endpoints through the centralized `API
 │   ├── pyproject.toml                 # Python project tooling
 │   ├── .env.example                   # Backend environment template
 │   ├── Dockerfile                     # Backend container image
-│   ├── docker-compose.yml              # PostgreSQL, Redis, and API services
+│   ├── docker-compose.yml             # PostgreSQL,and API services
 │   ├── alembic/                       # Database migration configuration
 │   ├── app/api.py                     # API router aggregation
-│   ├── core/                          # Settings, security, database, middleware
+│   ├── core/                          # middleware
 │   ├── modules/                       # Domain modules and API routes
 │   ├── integrations/                  # OAuth and payment clients
 │   ├── database/seeders/              # Seed data utilities
