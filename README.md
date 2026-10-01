@@ -98,10 +98,17 @@ The frontend sends requests to `/api/...` endpoints through the centralized `API
 │   ├── pyproject.toml                 # Python project tooling
 │   ├── .env.example                   # Backend environment template
 │   ├── Dockerfile                     # Backend container image
+<<<<<<< HEAD
 │   ├── docker-compose.yml              # PostgreSQL, Redis, and API services
 │   ├── alembic/                       # Database migration configuration
 │   ├── app/api.py                     # API router aggregation
 │   ├── core/                          # Settings, security, database, middleware
+=======
+│   ├── docker-compose.yml             # PostgreSQL,and API services
+│   ├── alembic/                       # Database migration configuration
+│   ├── app/api.py                     # API router aggregation
+│   ├── core/                          # middleware
+>>>>>>> 6974f1ff2a6198ff60d4eaf6abe7338b40b20078
 │   ├── modules/                       # Domain modules and API routes
 │   ├── integrations/                  # OAuth and payment clients
 │   ├── database/seeders/              # Seed data utilities
@@ -436,6 +443,7 @@ black .
 pylint modules/
 ```
 
+<<<<<<< HEAD
 Frontend validation should include:
 
 - Serving the frontend through HTTP rather than `file://`
@@ -533,3 +541,6 @@ Runtime deployment still requires environment-specific infrastructure and secret
 ## License
 
 The project currently documents an MIT license in the component documentation. Confirm the intended license and add the formal license file before public distribution.
+=======
+ MIT license in the component documentation. Confirm the intended license and add the formal license file before public distribution.
+>>>>>>> 6974f1ff2a6198ff60d4eaf6abe7338b40b20078
