@@ -170,13 +170,12 @@ def _create_auth_redirect(
     """
     target_page = target_page.strip("/") or "dashboard.html"
 
-    redirect_uri = (
-        f"{frontend_base}/{target_page}"
-        f"?token={access_token}"
-        f"&refresh={refresh_token}"
-        f"&oauth={provider}"
-    )
-
+    redirect_uri: str = (
+    f"{frontend_base}/{target_page}"
+    f"?token={access_token}"
+    f"&refresh={refresh_token}"
+    f"&oauth={provider}"
+)
     return RedirectResponse(url=redirect_uri, status_code=status.HTTP_302_FOUND)
 
 
