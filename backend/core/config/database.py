@@ -71,21 +71,30 @@ async def init_db():
     except Exception as e:
         logger.warning(f"Database schema initialization note: {e}")
 
-    # Auto-seed if database has no users
-    try:
-        from database.seeders.users import seed_users
-        async with async_session_maker() as session:
-            from sqlalchemy import select, func
-            from modules.users.models import User
-            count_res = await session.execute(select(func.count(User.id)))
-            count = count_res.scalar_one_or_none() or 0
-            if count == 0:
-                await seed_users(session)
-                logger.info("Initialized database with default test accounts and communities")
-    except Exception as e:
-        logger.warning(f"Auto-seed note: {e}")
+        # Auto-seed if database has no users
+        # Seed demo data only in development.
+        # Never automatically create demo accounts in staging/production.
+        if settings.ENVIRONMENT == "development":
+            try:
+                from database.seeders.users import seed_users
 
+                async with async_session_maker() as session:
+                    from sqlalchemy import select, func
+                    from modules.users.models import User
 
+                    count_res = await session.execute(
+                        select(func.count(User.id))
+                    )
+                    count = count_res.scalar_one_or_none() or 0
+
+                    if count == 0:
+                        await seed_users(session)
+                        logger.info(
+                            "Development database initialized with demo users"
+                        )
+
+            except Exception as e:
+                logger.warning(f"Development auto-seed note: {e}")
 async def drop_db():
     """Drop all database tables"""
     async with engine.begin() as conn:
