@@ -1,0 +1,715 @@
+CAMPUSCONNECT
+
+Final Product Flow & System Workflow Document
+
+"Har Student Tak Pahunch, Har Guru Ki Samajh"
+
+Document purposeThis document converts the CampusConnect proposal into a consistent implementation-oriented flow specification. It preserves the source product model—Student, Professor, Industry Expert and Admin—and strengthens the operational flows where the proposal needs explicit states, failure handling, moderation, booking, payment and lifecycle controls.
+
+Item
+
+Final Definition
+
+Product
+
+CampusConnect
+
+Primary users
+
+Students, Professors, Industry Experts
+
+Platform operator
+
+Admin
+
+Core value
+
+Verified mentorship, peer learning, academic guidance and safe community access
+
+MVP model
+
+Responsive web MVP with simulated state/persistence
+
+Scale path
+
+MongoDB + Node/Express + WebSocket + live payments + AI matching
+
+Core trust mechanism
+
+Role-based verification + moderation + scoped access
+
+Finalized: September 2026
+
+1. Product Flow Analysis & Corrections
+
+The source proposal defines CampusConnect as a verified peer-to-peer mentorship platform with three main user types and an Admin role. Its stated feature set includes peer chat, a doubts board, expert session booking, mock interviews, Blue Tick verification, professor forums, moderation, payments, profiles and a privacy vault.
+
+What was fixedThe original proposal is strong at the product-feature level but leaves several production-critical transitions implicit. The final flows below make those transitions explicit: verification states, payment states, slot locking, cancellation/refund handling, moderation severity, account suspension, notifications, privacy lifecycle and admin auditability.
+
+1.1 Canonical product lifecycle
+
+Master ecosystem
+
+VISITOR   ↓REGISTER / LOGIN   ↓ROLE SELECTION   ↓PROFILE + REQUIRED VERIFICATION DATA   ↓VERIFICATION   ├── NEEDS INFO / REJECTED → Correct → Re-submit   └── VERIFIED ✓          ↓       DASHBOARD          ↓   ┌──────┼────────┬──────────┬─────────────┐   ↓      ↓        ↓          ↓             ↓ PEER   DOUBTS   EXPERT     PROFESSOR     MOCK CHAT   BOARD    SESSION      FORUM      INTERVIEW          │         │            │            │          └─────────┴──────┬─────┴────────────┘                           ↓                    ENGAGEMENT / SESSION                           ↓                    RATING + RECEIPT                           ↓                 REPUTATION / HISTORY                           ↓                    MORE DISCOVERY
+
+Implementation note: The proposal's original four-step journey is retained, but the final system adds explicit failure and post-session states.
+
+2. Role & Access Model
+
+Role
+
+Verification basis from proposal
+
+Core access after verification
+
+Student
+
+Student ID + college email; ID scan + email OTP
+
+Peer chat, doubts board, session booking
+
+Professor
+
+Faculty registry + institutional email; registry/domain validation
+
+Forums, research recruitment, paid guidance
+
+Industry Expert
+
+Corporate email OR offer letter; domain verification + OCR
+
+Paid sessions, mock interviews, talent scouting
+
+Admin
+
+Administrative authority
+
+Verification, moderation, user controls, operational oversight
+
+Access ruleVerification is not merely a profile badge. It must drive authorization. An unverified or suspended account should not be able to access capabilities reserved for verified users.
+
+3. Authentication & Onboarding Flows
+
+3.1 Authentication
+
+OPEN APP  ↓LOGIN or REGISTER  ↓Validate credentials  ├── Invalid → Error + retry  └── Valid → Create authenticated session                    ↓              Check account status               ├── ACTIVE → Dashboard               ├── PENDING_VERIFICATION → Verification status               ├── SUSPENDED → Restricted screen               └── BANNED → Access denied
+
+3.2 Student onboarding
+
+REGISTER → Select STUDENT        ↓Basic profile → College/course/year/skills/goals/availability        ↓Student ID upload + college email        ↓Email OTP + document intake        ↓Verification queue        ↓APPROVED → Blue Tick → Student dashboardREJECTED / NEEDS_INFO → Reason → Re-upload → Re-review
+
+3.3 Professor onboarding
+
+REGISTER → Select PROFESSOR        ↓Profile + institutional details        ↓Faculty registry information + institutional email        ↓Registry/domain validation        ↓Admin review        ↓APPROVED → Blue Tick → Professor dashboardREJECTED / NEEDS_INFO → Correct information → Re-submit
+
+3.4 Industry expert onboarding
+
+REGISTER → Select INDUSTRY EXPERT        ↓Company/designation/experience/skills/profile        ↓Corporate email OR offer letter        ↓Domain verification + OCR/document checks        ↓Admin review        ↓APPROVED → Blue Tick → Expert dashboardREJECTED / NEEDS_INFO → Correct/re-upload → Re-review
+
+4. Verification System — Final State Machine
+
+4.1 Verification lifecycle
+
+CREATED  ↓PENDING_VERIFICATION  ↓AUTOMATED_CHECKS  ├── FAIL / SUSPICIOUS → MANUAL_REVIEW  └── PASS → MANUAL_REVIEW / APPROVAL                         ↓                 ┌───────┼──────────┐                 ↓       ↓          ↓              APPROVED REJECTED  NEEDS_INFO                 ↓       ↓          ↓              BLUE TICK  Reason   User fixes                 ↓       └──────┬──────┘              FULL ACCESS         ↓                              RE-SUBMIT
+
+Implementation note: The source proposal specifies admin review + OCR and a 24-hour verification target. The state machine makes retries and incomplete submissions explicit.
+
+State
+
+Meaning
+
+Allowed action
+
+PENDING_VERIFICATION
+
+Documents submitted, not yet reviewed
+
+Wait / admin process
+
+UNDER_REVIEW
+
+Human or automated checks active
+
+No privileged access
+
+NEEDS_INFO
+
+More or clearer evidence required
+
+User re-submits
+
+VERIFIED
+
+Identity/role accepted
+
+Role capabilities enabled
+
+REJECTED
+
+Evidence failed review
+
+Re-submit/appeal according to policy
+
+SUSPENDED
+
+Access temporarily restricted
+
+Admin review
+
+5. Discovery & Matching Flows
+
+5.1 Peer discovery
+
+Student dashboard  ↓Search/filter peers  ↓View verified profile  ↓Start chat / follow available connection  ↓Mutual approval if required  ↓Private chat
+
+5.2 Expert discovery
+
+Student dashboard  ↓Find Expert  ↓Filter by skill / experience / rating / price / availability  ↓Open verified expert profile  ↓Choose session type + slot  ↓Proceed to booking
+
+5.3 Future AI matching
+
+Verified user profile  ↓Structured attributes:skills + goals + experience + availability + topics + ratings + history  ↓Matching/ranking model  ↓Candidate mentors / students  ↓Recommendations  ↓User chooses connection/session
+
+Implementation note: The proposal places AI matching in the later roadmap. Do not make AI a dependency for the MVP.
+
+6. Communication Flows
+
+6.1 Peer chat
+
+Open verified peer profile       ↓Connection request / mutual approval       ↓PRIVATE CHAT ROOM       ↓Send / receive messages       ↓Block / report available at all times       ↓If blocked → remove feed + DM visibility
+
+Implementation note: Messages should remain outside public feeds. Access should be checked server-side, not only hidden in the UI.
+
+6.2 Privacy-scoped messaging
+
+Message request    ↓Authorize sender + recipient + relationship/session    ↓Create/read private conversation    ↓No public-feed exposure    ↓Block / suspension immediately revokes access
+
+7. Doubts Board & Academic Community
+
+7.1 Doubts board
+
+Create question    ↓Anonymous? YES / NO    ↓Automated content filter    ├── Unsafe/spam → moderation queue    └── Clean → publish               ↓        Community answers               ↓          Upvotes / replies               ↓       Helpful answer surfaced               ↓        Question resolved
+
+7.2 Professor forum
+
+Professor creates academic thread        ↓Content safety check        ↓Publish / moderation queue if flagged        ↓Students/researchers discuss        ↓Professor responds / validates        ↓Knowledge remains searchable
+
+8. Expert Session Booking — Final Production Flow
+
+8.1 Booking lifecycle
+
+VIEW EXPERT   ↓SELECT SESSION TYPE   ↓SELECT AVAILABLE SLOT   ↓TEMPORARY SLOT LOCK   ↓CREATE PAYMENT ORDER   ↓PAYMENT   ├── Failed → Release lock → Retry   ├── Cancelled → Release lock   └── Success → Verify payment                    ↓              CONFIRM BOOKING                    ↓             Calendar + reminder                    ↓                 SESSION                    ↓              COMPLETED / NO-SHOW                    ↓               Rating + receipt                    ↓                Payout eligibility
+
+Implementation note: Temporary locking prevents two users from purchasing the same slot concurrently.
+
+8.2 Booking state machine
+
+AVAILABLE   ↓HELD   ├── hold expires → AVAILABLE   └── payment succeeds → CONFIRMED                         ↓                      UPCOMING                         ↓                 IN_PROGRESS / NO_SHOW                         ↓                     COMPLETED                         ↓                 RATING / PAYOUT
+
+9. Payment, Cancellation & Refund Flows
+
+9.1 Payment state machine
+
+ORDER_CREATED     ↓PAYMENT_PENDING     ├── FAILED → PAYMENT_FAILED → Retry / Cancel     ├── CANCELLED → ORDER_CANCELLED     └── SUCCESS → PAYMENT_CAPTURED                         ↓                    BOOKING_CONFIRMED                         ↓                    SESSION_COMPLETED                         ↓                     SETTLEMENT                         ↓                    EXPERT_PAYOUT
+
+Implementation note: The proposal specifies a 15% platform commission and ₹500–₹1,000/hour MVP pricing. Live gateway integration is a later roadmap item; MVP can simulate this flow.
+
+9.2 Cancellation/refund
+
+Confirmed booking      ↓Cancellation request      ↓Check cancellation policy + session time      ├── Eligible → Cancel booking → Refund workflow      ├── Partial eligibility → Partial refund      └── Not eligible → Cancellation recorded      ↓Notify both parties      ↓Release slot / update calendar      ↓Record audit event
+
+10. Session & Mock Interview Flows
+
+10.1 Expert session
+
+Booking confirmed      ↓Reminder notifications      ↓Join session      ↓Session active      ↓Complete / no-show / technical issue      ↓Session receipt + notes      ↓Student + expert rating      ↓Payout eligibility
+
+10.2 Mock interview
+
+Select mock interview       ↓Choose role / difficulty / interviewer / slot       ↓Booking + payment if applicable       ↓Interview       ↓Evaluation       ↓Scorecard       ├── Technical       ├── Communication       ├── Problem solving       └── Overall       ↓Feedback saved to history
+
+11. Professor Research & Academic Guidance
+
+11.1 Research assistant flow
+
+Professor creates opportunity       ↓Topic + skills + duration + eligibility       ↓Publish       ↓Student discovers opportunity       ↓Apply       ↓Professor reviews applications       ↓Shortlist / reject       ↓Interview if needed       ↓Select student       ↓Research collaboration
+
+12. Moderation, Reporting & Safety
+
+12.1 Content moderation
+
+USER CREATES CONTENT       ↓AUTOMATED FILTER       ├── CLEAN → Publish       └── FLAGGED → Moderation Queue                         ↓                    Severity score                         ↓                HUMAN MODERATOR                         ↓             ┌───────────┼───────────┐             ↓           ↓           ↓          ALLOW       REMOVE       ESCALATE             │           │           │             └───────────┴─────┬─────┘                               ↓                         Audit record
+
+12.2 Report → action
+
+User flags content/account        ↓Create report        ↓Assign severity        ↓Moderator review        ↓Action:ALLOW / WARNING / CONTENT REMOVAL / TEMP SUSPENSION / PERMANENT BAN        ↓Notify affected user where policy allows        ↓Store audit trail
+
+12.3 Block flow
+
+User A blocks User B       ↓Create block relationship       ↓Immediately revoke:feed visibility + DM capability + direct interaction       ↓B is not notified of the block       ↓Report remains independent if A also reports B
+
+13. Admin Operations Flow
+
+13.1 Admin master workflow
+
+ADMIN LOGIN    ↓ADMIN DASHBOARD    ├── Verification Queue    ├── Moderation Queue    ├── User Management    ├── Session/Booking Oversight    ├── Payment/Refund Oversight    ├── Reports    └── Audit Logs             ↓      Every privileged action logged
+
+Admin area
+
+Primary operations
+
+Verification
+
+Review evidence, approve, reject, request more information
+
+Moderation
+
+Review flags, remove content, warn/suspend/ban
+
+Users
+
+Search, inspect status, restrict/suspend/restore
+
+Bookings
+
+Investigate booking/session disputes and no-shows
+
+Payments
+
+Review payment state, refunds and payout exceptions
+
+Audit
+
+Track who changed what, when and why
+
+14. Privacy & Security Flows
+
+14.1 Data access
+
+REQUEST DATA    ↓Authenticate user    ↓Authorize against role + ownership + relationship    ├── Allowed → Return minimum required data    └── Denied → 403 / access denied    ↓Log sensitive access where required
+
+14.2 Verification document lifecycle
+
+Upload ID / offer letter       ↓Private object storage       ↓Admin/verification service only       ↓Review + decision       ↓Retain according to documented retention policy       ↓Delete/expire when policy permits       ↓Never expose document in public profile/feed
+
+Implementation note: The proposal explicitly describes an isolated admin-only verification vault. A production deployment should also define retention, deletion and access-audit rules.
+
+14.3 Account closure
+
+User requests account closure        ↓Confirm identity        ↓Check active bookings / pending payouts / reports        ↓Close or resolve dependent records        ↓Disable login        ↓Apply data retention/deletion policy        ↓Record closure event
+
+15. Notification Flow
+
+15.1 Notification engine
+
+EVENT  ↓Notification service  ↓Determine recipient + channel + preference  ↓Send:email / in-app / push (mobile phase)  ↓Delivery status  ├── delivered  └── failed → retry / log
+
+Event
+
+User(s)
+
+Example notification
+
+Verification approved
+
+User
+
+Your profile is verified
+
+Verification needs info
+
+User
+
+Additional verification information required
+
+Booking confirmed
+
+Student + Expert
+
+Session confirmed
+
+Upcoming session
+
+Student + Expert
+
+Session reminder
+
+Payment failed
+
+Student
+
+Payment could not be completed
+
+Cancellation/refund
+
+Affected parties
+
+Booking/refund status
+
+Report action
+
+Affected user
+
+Moderation decision where policy permits
+
+16. Profile, Rating & Reputation Flow
+
+16.1 Rating lifecycle
+
+Session completed      ↓Open rating window      ↓Student rates expert + expert rates student where applicable      ↓Validate rating eligibility      ↓Store rating      ↓Update aggregates:average rating + count + relevant reputation metrics      ↓Refresh public profile visibility
+
+17. Recommended Technical Flow
+
+The source architecture proposes a lightweight HTML/CSS/Vanilla JS MVP with JSON state, followed by MongoDB, Node/Express, WebSocket chat, live payments, mobile apps and AI matching. The final flow below separates responsibilities so the MVP can evolve without rewriting product behavior.
+
+17.1 Application request flow
+
+WEB / MOBILE CLIENT        ↓AUTHENTICATION        ↓API / APPLICATION LAYER        ↓┌────────┬──────────┬──────────┬─────────────┐↓        ↓          ↓          ↓USER    CHAT      BOOKING   MODERATIONSERVICE SERVICE   SERVICE     SERVICE  │       │          │           │  └───────┴──────────┴───────────┘                  ↓              DATABASE                  ↓        ┌─────────┼─────────┐        ↓         ↓         ↓ OBJECT STORAGE QUEUE   NOTIFICATION (verification) (jobs)     SERVICE
+
+Layer
+
+MVP
+
+Scale path
+
+Frontend
+
+HTML5 + CSS3 + Vanilla JS
+
+React/web + native Android/iOS
+
+State
+
+JSON/mock state
+
+Server-side persistent state
+
+Database
+
+Mock/local state
+
+MongoDB Atlas
+
+Backend
+
+Minimal/no live backend in MVP
+
+Node.js + Express APIs
+
+Chat
+
+Simulation
+
+WebSocket real-time
+
+Payments
+
+Mock checkout
+
+Live gateway integration
+
+Matching
+
+Manual/search filters
+
+ML-powered matching
+
+Moderation
+
+Keyword + human queue
+
+Automated assistance + human review
+
+18. Core Data Model Needed for These Flows
+
+Entity
+
+Purpose
+
+Key relationships
+
+User
+
+Identity and account status
+
+Role, verification, sessions, reports
+
+Profile
+
+Public/role-specific profile
+
+User
+
+VerificationCase
+
+Verification lifecycle
+
+User, documents, admin decisions
+
+VerificationDocument
+
+Private evidence
+
+VerificationCase
+
+Conversation
+
+Private chat container
+
+Users/session
+
+Message
+
+Chat message
+
+Conversation, sender
+
+Question
+
+Doubts board content
+
+User, answers, reports
+
+Answer
+
+Question response
+
+Question, author
+
+Booking
+
+Session reservation lifecycle
+
+Student, expert, slot
+
+Payment
+
+Payment lifecycle
+
+Booking
+
+Session
+
+Actual mentorship session
+
+Booking
+
+Rating
+
+Post-session reputation
+
+Session, rater, rated user
+
+ResearchOpportunity
+
+Professor research requirement
+
+Professor, applications
+
+Application
+
+Student application
+
+ResearchOpportunity, student
+
+Report
+
+Safety/moderation case
+
+Reporter, target, content
+
+Block
+
+Private user block relationship
+
+Blocker, blocked user
+
+Notification
+
+User communication
+
+User, event
+
+AuditLog
+
+Privileged/system action trail
+
+Actor, target, action
+
+19. Critical Error & Exception Flows
+
+Scenario
+
+Required system behavior
+
+Invalid OTP
+
+Show error, allow retry, rate-limit attempts
+
+Verification document unreadable
+
+Move to NEEDS_INFO; request re-upload
+
+Duplicate verification
+
+Detect existing case; avoid duplicate identity records
+
+Slot already taken
+
+Reject stale request and refresh availability
+
+Payment failure
+
+Do not confirm booking; release/expire slot hold
+
+Payment succeeds but booking confirmation fails
+
+Reconcile payment and booking before final state
+
+Expert no-show
+
+Record event; apply policy; notify student; payout/refund decision
+
+Student no-show
+
+Record event; apply policy
+
+Content flagged
+
+Create moderation case; preserve evidence and audit trail
+
+Repeat abuse
+
+Escalate toward suspension/ban according to policy
+
+Account suspended during booking
+
+Restrict future interactions and flag affected bookings for review
+
+Notification failure
+
+Retry where appropriate and log delivery failure
+
+Production warningThe biggest failure modes are not the happy-path screens. They are concurrency, payment reconciliation, authorization, verification abuse, moderation abuse and inconsistent state between services. These flows must be implemented as backend rules, not just frontend navigation.
+
+20. End-to-End Golden Paths
+
+20.1 Student → Expert → Paid session
+
+Register → Student verification → Blue Tick        ↓Find Expert → Filter → Expert profile        ↓Select slot → Hold slot        ↓Payment → Confirm booking        ↓Reminder → Session        ↓Complete → Rating → Receipt        ↓Payout eligibility → Reputation update
+
+20.2 Student → Peer → Free mentorship
+
+Register → Verification       ↓Find verified peer       ↓Connection approval       ↓Private chat       ↓Block/report available       ↓Conversation history
+
+20.3 Student → Doubt board
+
+Create question → Anonymous option       ↓Content filter       ↓Publish / moderation       ↓Answers → Upvotes       ↓Useful answer surfaced → Resolve
+
+20.4 Professor → Research assistant
+
+Professor verified       ↓Create research opportunity       ↓Students discover       ↓Applications       ↓Shortlist → Interview       ↓Select → Research collaboration
+
+21. Final Implementation Checklist
+
+□ Authentication and session management
+
+□ Role-based authorization
+
+□ Student/Professor/Expert verification workflows
+
+□ Verification status state machine
+
+□ Private verification document storage
+
+□ Profile management
+
+□ Peer discovery and chat
+
+□ Doubts board + anonymous posting
+
+□ Professor forums
+
+□ Expert discovery
+
+□ Availability calendar and slot locking
+
+□ Booking state machine
+
+□ Payment state machine
+
+□ Cancellation/refund policy engine
+
+□ Session lifecycle
+
+□ Mock interview lifecycle
+
+□ Rating and reputation system
+
+□ Report/block system
+
+□ Moderation queue + escalation
+
+□ Admin dashboard
+
+□ Audit logs
+
+□ Notifications
+
+□ Account suspension/ban
+
+□ Account closure/data lifecycle
+
+□ Analytics
+
+□ MVP mock persistence
+
+□ Production database migration
+
+□ WebSocket chat
+
+□ Live payment gateway
+
+□ AI matching (later phase)
+
+□ Mobile app (later phase)
+
+22. Alignment With CampusConnect Proposal
+
+This final document is derived from the uploaded CampusConnect proposal. The proposal identifies the student problem, three primary roles, verification, privacy/security, moderation, freemium monetization, the four-step verified user journey, the MVP technology approach and the post-MVP roadmap. The additional states in this document are explicit implementation controls added to make those source-level flows operationally complete rather than changing the product's core proposition.
+
+Proposal area
+
+Preserved in final flow
+
+Three primary roles
+
+Student / Professor / Industry Expert
+
+Admin
+
+Verification, moderation and operational controls
+
+Verification
+
+Blue Tick + role-specific evidence + review
+
+Safe community
+
+Filtering, flags, blocking, moderation and anti-discrimination enforcement
+
+Paid expert access
+
+Booking + payment + session + rating + payout
+
+Free community
+
+Peer chat + doubts board + professor forums
+
+Privacy
+
+Role-scoped access + isolated verification documents + private messaging
+
+Roadmap
+
+MongoDB/Node/WebSocket/payments/mobile/AI as later phases

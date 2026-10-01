@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mentor Portal — CampusConnect</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logos/favicon.svg">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap 5 CSS & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  
+  <!-- Custom Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="app-wrapper">
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="dashboard.html" class="sidebar-brand">
+          <img src="assets/logos/logo.svg" alt="CampusConnect" class="sidebar-brand-img">
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="nav-section-title">Main Menu</span>
+        <a href="dashboard.html" class="nav-item-link" id="nav-dashboard">
+          <i class="bi bi-speedometer2"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="mentors.html" class="nav-item-link" id="nav-mentors">
+          <i class="bi bi-search"></i>
+          <span>Find Mentors</span>
+        </a>
+        <a href="bookings.html" class="nav-item-link" id="nav-bookings">
+          <i class="bi bi-calendar2-check"></i>
+          <span>My Sessions</span>
+        </a>
+        <a href="messages.html" class="nav-item-link" id="nav-messages">
+          <i class="bi bi-chat-dots"></i>
+          <span>Messages</span>
+        </a>
+        <a href="communities.html" class="nav-item-link" id="nav-communities">
+          <i class="bi bi-people"></i>
+          <span>Communities</span>
+        </a>
+        <a href="mentor-dashboard.html" class="nav-item-link active" id="nav-mentor-dashboard">
+          <i class="bi bi-award"></i>
+          <span>Mentor Portal</span>
+        </a>
+        <a href="profile.html" class="nav-item-link" id="nav-profile">
+          <i class="bi bi-person"></i>
+          <span>My Profile</span>
+        </a>
+        <a href="settings.html" class="nav-item-link" id="nav-settings">
+          <i class="bi bi-gear"></i>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user-card">
+          <div class="sidebar-user-avatar" id="sidebar-user-avatar">U</div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name" id="sidebar-user-name">Loading...</div>
+            <div class="sidebar-user-role" id="sidebar-user-role">Student</div>
+          </div>
+          <button type="button" class="btn btn-icon-sm btn-outline-secondary logout-btn" title="Sign Out">
+            <i class="bi bi-box-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="app-main">
+      <header class="app-topbar">
+        <div class="d-flex align-items-center gap-3">
+          <button type="button" class="btn btn-icon d-lg-none" id="sidebar-toggle-btn">
+            <i class="bi bi-list fs-4"></i>
+          </button>
+          <h4 class="font-heading fw-bold mb-0 text-dark">Mentor Portal</h4>
+        </div>
+
+        <div class="topbar-actions">
+          <a href="notifications.html" class="topbar-btn" title="Notifications">
+            <i class="bi bi-bell"></i>
+          </a>
+          <div class="dropdown">
+            <button class="btn btn-outline-secondary d-flex align-items-center gap-2 py-1 px-2.5 rounded-pill" data-bs-toggle="dropdown">
+              <div class="topbar-user-avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center fw-bold small" style="width: 28px; height: 28px;" id="topbar-user-avatar">U</div>
+              <span class="d-none d-sm-inline fw-semibold small text-dark topbar-user-name" id="topbar-user-name">Account</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 mt-2">
+              <li><a class="dropdown-item small py-2" href="profile.html"><i class="bi bi-person me-2"></i>My Profile</a></li>
+              <li><hr class="dropdown-divider my-1"></li>
+              <li><a class="dropdown-item small py-2 text-danger logout-btn" href="#"><i class="bi bi-box-arrow-right me-2"></i>Sign Out</a></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+
+      <main class="app-content">
+        <!-- ========================================== -->
+        <!-- VIEW A: 5-STEP MENTOR ONBOARDING WIZARD   -->
+        <!-- ========================================== -->
+        <div id="mentor-onboarding-view" style="display: none;">
+          <div class="max-w-700 mx-auto">
+            <div class="text-center mb-4">
+              <span class="badge bg-primary text-white mb-2 py-1.5 px-3">Become a Mentor</span>
+              <h2 class="font-heading fw-extrabold text-dark mb-1">Mentor Onboarding Wizard</h2>
+              <p class="text-secondary small mb-0">Share your expertise and guide the next generation of students.</p>
+            </div>
+
+            <!-- Wizard Step Tracker -->
+            <div class="cc-card p-3 mb-4">
+              <div class="journey-tracker">
+                <div class="journey-step active" id="wizard-step-indicator-1">
+                  <div class="journey-step-circle">1</div>
+                  <span class="journey-step-title">About You</span>
+                </div>
+                <div class="journey-step" id="wizard-step-indicator-2">
+                  <div class="journey-step-circle">2</div>
+                  <span class="journey-step-title">Expertise</span>
+                </div>
+                <div class="journey-step" id="wizard-step-indicator-3">
+                  <div class="journey-step-circle">3</div>
+                  <span class="journey-step-title">Hourly Rate</span>
+                </div>
+                <div class="journey-step" id="wizard-step-indicator-4">
+                  <div class="journey-step-circle">4</div>
+                  <span class="journey-step-title">Bio</span>
+                </div>
+                <div class="journey-step" id="wizard-step-indicator-5">
+                  <div class="journey-step-circle">5</div>
+                  <span class="journey-step-title">Review</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step Cards -->
+            <div class="cc-card p-4 p-lg-5 mb-4">
+              <!-- Step 1: About You -->
+              <div id="wizard-step-card-1">
+                <h5 class="fw-bold mb-3">Step 1: Your Profile & University</h5>
+                <p class="text-secondary small mb-4">Your name and email will be linked with your mentor credentials.</p>
+                <div class="alert alert-light border p-3 rounded-3 mb-3">
+                  <div class="fw-bold text-dark mb-1">Verified Account Link</div>
+                  <div class="small text-muted">Same-college juniors will automatically receive free or discounted guidance under CampusConnect pricing rules.</div>
+                </div>
+              </div>
+
+              <!-- Step 2: Expertise -->
+              <div id="wizard-step-card-2" style="display: none;">
+                <h5 class="fw-bold mb-3">Step 2: Areas of Expertise</h5>
+                <p class="text-secondary small mb-3">Select the topics and technologies you can guide students on:</p>
+
+                <div class="d-flex flex-wrap gap-2 mb-4" id="wizard-expertise-container">
+                  <button type="button" class="btn btn-sm skill-chip wizard-skill-btn" data-skill="Python">Python</button>
+                  <button type="button" class="btn btn-sm skill-chip wizard-skill-btn" data-skill="FastAPI">FastAPI</button>
+                  <button type="button" class="btn btn-sm skill-chip wizard-skill-btn" data-skill="System Design">System Design</button>
+                  <button type="button" class="btn btn-sm skill-chip wizard-skill-btn" data-skill="Machine Learning">Machine Learning</button>
+                  <button type="button" class="btn btn-sm skill-chip wizard-skill-btn" data-skill="Data Structures & Algorithms">DSA</button>
+                  <button type="button" class="btn btn-sm skill-chip wizard-skill-btn" data-skill="Full Stack Development">Full Stack</button>
+                  <button type="button" class="btn btn-sm skill-chip wizard-skill-btn" data-skill="Resume Review">Resume Review</button>
+                  <button type="button" class="btn btn-sm skill-chip wizard-skill-btn" data-skill="Research Paper Writing">Research Guidance</button>
+                  <button type="button" class="btn btn-sm skill-chip wizard-skill-btn" data-skill="Career & Placements">Career & Placements</button>
+                </div>
+
+                <label class="form-label" for="custom-skill-input">Add Custom Skill / Topic</label>
+                <input type="text" class="form-control" id="custom-skill-input" placeholder="e.g. AWS Cloud Architecture">
+              </div>
+
+              <!-- Step 3: Hourly Rate -->
+              <div id="wizard-step-card-3" style="display: none;">
+                <h5 class="fw-bold mb-3">Step 3: Set Your Session Hourly Rate</h5>
+                <p class="text-secondary small mb-4">Set your standard hourly mentorship fee in Indian Rupees (₹). You can set ₹0 for volunteer mentorship.</p>
+                <div class="mb-3">
+                  <label class="form-label" for="wizard-rate-input">Hourly Rate (INR) <span class="text-danger">*</span></label>
+                  <div class="input-group">
+                    <span class="input-group-text">₹</span>
+                    <input type="number" class="form-control form-control-lg" id="wizard-rate-input" value="500" min="0" step="50" required>
+                    <span class="input-group-text">/ hour</span>
+                  </div>
+                </div>
+                <p class="text-muted small">* Same-college senior/professor free policy will apply automatically to eligible students.</p>
+              </div>
+
+              <!-- Step 4: Professional Bio -->
+              <div id="wizard-step-card-4" style="display: none;">
+                <h5 class="fw-bold mb-3">Step 4: Professional Bio & Guidance Philosophy</h5>
+                <p class="text-secondary small mb-3">Describe your background, company/college experience, and how you mentor students:</p>
+                <textarea class="form-control" id="wizard-bio-input" rows="5" placeholder="Share your achievements, current role, and what juniors can expect in your 1-on-1 sessions..." required></textarea>
+              </div>
+
+              <!-- Step 5: Review & Confirmation -->
+              <div id="wizard-step-card-5" style="display: none;">
+                <h5 class="fw-bold mb-3">Step 5: Review Your Mentor Profile</h5>
+                <div class="bg-light p-4 rounded-3 mb-4">
+                  <div class="mb-3">
+                    <span class="text-muted small d-block">Mentor Name:</span>
+                    <span class="fw-bold text-dark" id="review-name">-</span>
+                  </div>
+                  <div class="mb-3">
+                    <span class="text-muted small d-block">Expertise:</span>
+                    <div id="review-skills" class="d-flex flex-wrap gap-1 mt-1"></div>
+                  </div>
+                  <div class="mb-3">
+                    <span class="text-muted small d-block">Standard Rate:</span>
+                    <span class="fw-bold text-primary fs-5" id="review-rate">₹0</span>
+                  </div>
+                  <div>
+                    <span class="text-muted small d-block">Bio:</span>
+                    <p class="small text-secondary mb-0" id="review-bio">-</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Wizard Controls -->
+              <div class="d-flex justify-content-between align-items-center pt-4 border-top">
+                <button type="button" class="btn btn-outline-secondary" id="wizard-prev-btn" style="visibility: hidden;">
+                  <i class="bi bi-arrow-left me-1"></i> Previous
+                </button>
+                <button type="button" class="btn btn-primary btn-lg ms-auto" id="wizard-next-btn">
+                  Next Step <i class="bi bi-arrow-right ms-1"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- VIEW B: ACTIVE MENTOR PORTAL DASHBOARD    -->
+        <!-- ========================================== -->
+        <div id="mentor-active-dashboard-view" style="display: none;">
+          <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+            <div>
+              <span class="badge bg-success-subtle text-success border border-success-subtle mb-1">Active Mentor Account</span>
+              <h2 class="font-heading fw-bold text-dark mb-0">Welcome back, <span id="mentor-portal-name">Mentor</span>!</h2>
+            </div>
+            <a href="mentor-dashboard.html?action=onboard" class="btn btn-outline-primary btn-sm">
+              <i class="bi bi-pencil-square me-1"></i> Edit Mentor Profile
+            </a>
+          </div>
+
+          <!-- Stats Overview -->
+          <div class="row g-3 mb-4">
+            <div class="col-sm-6 col-lg-3">
+              <div class="stat-card">
+                <div class="stat-icon stat-icon-purple"><i class="bi bi-people-fill"></i></div>
+                <div class="stat-content">
+                  <div class="stat-label">Active Mentees</div>
+                  <div class="stat-value">12</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+              <div class="stat-card">
+                <div class="stat-icon stat-icon-blue"><i class="bi bi-calendar2-check-fill"></i></div>
+                <div class="stat-content">
+                  <div class="stat-label">Completed Sessions</div>
+                  <div class="stat-value">28</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+              <div class="stat-card">
+                <div class="stat-icon stat-icon-green"><i class="bi bi-wallet2"></i></div>
+                <div class="stat-content">
+                  <div class="stat-label">Total Earnings</div>
+                  <div class="stat-value">₹14,200</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+              <div class="stat-card">
+                <div class="stat-icon stat-icon-amber"><i class="bi bi-star-fill"></i></div>
+                <div class="stat-content">
+                  <div class="stat-label">Rating</div>
+                  <div class="stat-value">4.9 ★</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mentor Session Bookings Management -->
+          <div class="cc-card p-4 mb-4">
+            <div class="cc-card-header">
+              <h5 class="cc-card-title"><i class="bi bi-clock-history text-primary me-2"></i>Incoming Mentorship Requests</h5>
+              <a href="bookings.html" class="small fw-bold text-primary">All Sessions</a>
+            </div>
+            <div class="p-4 text-center text-muted">
+              <i class="bi bi-calendar-check fs-2 text-primary opacity-50 d-block mb-2"></i>
+              <h6>Your calendar is up to date</h6>
+              <p class="small mb-0">Students can book sessions through your public mentor profile.</p>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Mobile Bottom Navigation -->
+  <div class="mobile-bottom-nav">
+    <a href="dashboard.html" class="mobile-nav-item">
+      <i class="bi bi-speedometer2"></i>
+      <span>Home</span>
+    </a>
+    <a href="mentors.html" class="mobile-nav-item">
+      <i class="bi bi-search"></i>
+      <span>Mentors</span>
+    </a>
+    <a href="bookings.html" class="mobile-nav-item">
+      <i class="bi bi-calendar2-check"></i>
+      <span>Sessions</span>
+    </a>
+    <a href="mentor-dashboard.html" class="mobile-nav-item active">
+      <i class="bi bi-award"></i>
+      <span>Mentor</span>
+    </a>
+    <a href="profile.html" class="mobile-nav-item">
+      <i class="bi bi-person"></i>
+      <span>Profile</span>
+    </a>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/mentor-dashboard.js"></script>
+</body>
+</html>

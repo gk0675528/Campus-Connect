@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: campusconnect-api
+    env: python
+    rootDir: backend
+    plan: starter
+    buildCommand: pip install --no-cache-dir -r requirements.txt
+    startCommand: python main.py
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11"
+      - key: DEBUG
+        value: "False"
+      - key: DATABASE_URL
+        sync: false
+      - key: REDIS_URL
+        sync: false
+      - key: SECRET_KEY
+        sync: false
+      - key: CORS_ORIGINS
+        value: "https://your-frontend-domain.com"
+      - key: APP_NAME
+        value: "CampusConnect"
+      - key: APP_VERSION
+        value: "1.0.0"

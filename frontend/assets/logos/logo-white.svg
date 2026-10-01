@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 50" width="240" height="50" fill="none">
+  <defs>
+    <linearGradient id="ccGradW" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7C5CFC"/>
+      <stop offset="100%" stop-color="#A78BFA"/>
+    </linearGradient>
+  </defs>
+  <!-- Icon Mark -->
+  <g transform="translate(4, 5)">
+    <rect x="0" y="0" width="40" height="40" rx="12" fill="url(#ccGradW)" />
+    <path d="M20 10L32 16L20 22L8 16L20 10Z" fill="#FFFFFF"/>
+    <path d="M12 18.5V25C12 28 15.5 30 20 30C24.5 30 28 28 28 25V18.5" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="32" cy="18" r="2" fill="#38BDF8"/>
+    <path d="M32 20V26" stroke="#38BDF8" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+  <!-- Typography -->
+  <text x="54" y="27" font-family="'Outfit', 'Inter', -apple-system, sans-serif" font-weight="800" font-size="22" fill="#FFFFFF" letter-spacing="-0.5">Campus<tspan fill="#A78BFA">Connect</tspan></text>
+  <text x="55" y="40" font-family="'Inter', -apple-system, sans-serif" font-weight="500" font-size="9" fill="#E0E7FF" letter-spacing="0.8">GLOBAL MENTORSHIP ECOSYSTEM</text>
+</svg>

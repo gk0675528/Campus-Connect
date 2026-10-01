@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Direct Messages — CampusConnect</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logos/favicon.svg">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap 5 CSS & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  
+  <!-- Custom Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="app-wrapper">
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="dashboard.html" class="sidebar-brand">
+          <img src="assets/logos/logo.svg" alt="CampusConnect" class="sidebar-brand-img">
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="nav-section-title">Main Menu</span>
+        <a href="dashboard.html" class="nav-item-link" id="nav-dashboard">
+          <i class="bi bi-speedometer2"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="mentors.html" class="nav-item-link" id="nav-mentors">
+          <i class="bi bi-search"></i>
+          <span>Find Mentors</span>
+        </a>
+        <a href="bookings.html" class="nav-item-link" id="nav-bookings">
+          <i class="bi bi-calendar2-check"></i>
+          <span>My Sessions</span>
+        </a>
+        <a href="messages.html" class="nav-item-link active" id="nav-messages">
+          <i class="bi bi-chat-dots"></i>
+          <span>Messages</span>
+        </a>
+        <a href="communities.html" class="nav-item-link" id="nav-communities">
+          <i class="bi bi-people"></i>
+          <span>Communities</span>
+        </a>
+        <a href="notifications.html" class="nav-item-link" id="nav-notifications">
+          <i class="bi bi-bell"></i>
+          <span>Notifications</span>
+        </a>
+        <a href="payments.html" class="nav-item-link" id="nav-payments">
+          <i class="bi bi-credit-card"></i>
+          <span>Payments</span>
+        </a>
+        <a href="profile.html" class="nav-item-link" id="nav-profile">
+          <i class="bi bi-person"></i>
+          <span>My Profile</span>
+        </a>
+        <a href="settings.html" class="nav-item-link" id="nav-settings">
+          <i class="bi bi-gear"></i>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user-card">
+          <div class="sidebar-user-avatar" id="sidebar-user-avatar">U</div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name" id="sidebar-user-name">Loading...</div>
+            <div class="sidebar-user-role" id="sidebar-user-role">Student</div>
+          </div>
+          <button type="button" class="btn btn-icon-sm btn-outline-secondary logout-btn" title="Sign Out">
+            <i class="bi bi-box-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="app-main">
+      <header class="app-topbar">
+        <div class="d-flex align-items-center gap-3">
+          <button type="button" class="btn btn-icon d-lg-none" id="sidebar-toggle-btn">
+            <i class="bi bi-list fs-4"></i>
+          </button>
+          <h4 class="font-heading fw-bold mb-0 text-dark">Direct Messages</h4>
+        </div>
+
+        <div class="topbar-actions">
+          <a href="notifications.html" class="topbar-btn" title="Notifications">
+            <i class="bi bi-bell"></i>
+          </a>
+          <div class="dropdown">
+            <button class="btn btn-outline-secondary d-flex align-items-center gap-2 py-1 px-2.5 rounded-pill" data-bs-toggle="dropdown">
+              <div class="topbar-user-avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center fw-bold small" style="width: 28px; height: 28px;" id="topbar-user-avatar">U</div>
+              <span class="d-none d-sm-inline fw-semibold small text-dark topbar-user-name" id="topbar-user-name">Account</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 mt-2">
+              <li><a class="dropdown-item small py-2" href="profile.html"><i class="bi bi-person me-2"></i>My Profile</a></li>
+              <li><hr class="dropdown-divider my-1"></li>
+              <li><a class="dropdown-item small py-2 text-danger logout-btn" href="#"><i class="bi bi-box-arrow-right me-2"></i>Sign Out</a></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+
+      <main class="app-content p-3 p-lg-4">
+        <!-- Safety Warning Banner -->
+        <div class="chat-warning-banner rounded-3 mb-3">
+          <i class="bi bi-shield-lock-fill text-warning fs-5 flex-shrink-0"></i>
+          <div>
+            <strong>Campus Safety Notice:</strong> For student protection, do not share phone numbers, WhatsApp, Telegram handles, or personal emails.
+          </div>
+        </div>
+
+        <!-- Chat Container -->
+        <div class="chat-container">
+          <!-- Left Sidebar Conversation List -->
+          <div class="chat-sidebar">
+            <div class="p-3 border-bottom">
+              <input type="text" class="form-control form-control-sm" placeholder="Search conversations...">
+            </div>
+            <div class="overflow-y-auto flex-grow-1" id="conversations-list">
+              <div class="chat-user-item active">
+                <div class="mentor-avatar" style="width: 40px; height: 40px; font-size: 0.9rem;">
+                  M
+                </div>
+                <div class="flex-grow-1 min-w-0">
+                  <div class="d-flex justify-content-between align-items-baseline">
+                    <h6 class="fw-bold text-dark fs-6 mb-0 text-truncate" id="active-chat-user-heading">Active Chat</h6>
+                  </div>
+                  <p class="text-secondary small mb-0 text-truncate">Click to chat</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Chat Main Area -->
+          <div class="chat-main">
+            <div class="chat-header">
+              <div class="d-flex align-items-center gap-3">
+                <div class="mentor-avatar" style="width: 38px; height: 38px; font-size: 0.85rem;">
+                  <i class="bi bi-person-fill"></i>
+                </div>
+                <div>
+                  <h6 class="fw-bold mb-0 text-dark" id="chat-active-name">Direct Mentorship Chat</h6>
+                  <span class="text-success small"><i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i>Active Channel</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Messages Stream -->
+            <div class="chat-messages" id="chat-messages-area">
+              <!-- Dynamically populated via js/messages.js -->
+            </div>
+
+            <!-- Input Area -->
+            <div class="chat-input-area" id="chat-input-container">
+              <form id="chat-send-form" class="d-flex gap-2">
+                <input type="text" class="form-control" id="chat-message-input" placeholder="Type your message here..." required autocomplete="off">
+                <button type="submit" class="btn btn-primary px-4 flex-shrink-0" id="chat-send-btn">
+                  <i class="bi bi-send-fill me-1"></i> Send
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Mobile Bottom Navigation -->
+  <div class="mobile-bottom-nav">
+    <a href="dashboard.html" class="mobile-nav-item">
+      <i class="bi bi-speedometer2"></i>
+      <span>Home</span>
+    </a>
+    <a href="mentors.html" class="mobile-nav-item">
+      <i class="bi bi-search"></i>
+      <span>Mentors</span>
+    </a>
+    <a href="bookings.html" class="mobile-nav-item">
+      <i class="bi bi-calendar2-check"></i>
+      <span>Sessions</span>
+    </a>
+    <a href="messages.html" class="mobile-nav-item active">
+      <i class="bi bi-chat-dots"></i>
+      <span>Messages</span>
+    </a>
+    <a href="profile.html" class="mobile-nav-item">
+      <i class="bi bi-person"></i>
+      <span>Profile</span>
+    </a>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/messages.js"></script>
+</body>
+</html>

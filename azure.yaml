@@ -1,0 +1,8 @@
+name: campusconnect
+metadata:
+  template: campusconnect@0.0.1
+services:
+  api:
+    project: ./backend
+    host: appservice
+    language: python

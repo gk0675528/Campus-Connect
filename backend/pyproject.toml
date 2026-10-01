@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "campusconnect"
+version = "1.0.0"
+description = "AI-powered mentorship and career guidance platform"
+readme = "../README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "CampusConnect Team"}
+]
+
+[project.urls]
+Homepage = "https://campusconnect.io"
+Repository = "https://github.com/campusconnect/backend"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["app*", "core*", "database*", "integrations*", "modules*", "monitoring*", "storage*", "websocket*"]

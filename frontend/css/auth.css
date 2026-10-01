@@ -1,0 +1,170 @@
+/* ==========================================================================
+   CampusConnect - Authentication Pages Stylesheet
+   ========================================================================== */
+
+.auth-wrapper {
+  min-height: 100vh;
+  display: flex;
+  background-color: var(--cc-bg);
+}
+
+.auth-hero-side {
+  flex: 1.1;
+  background: linear-gradient(135deg, #4526D9 0%, #5B3DF5 50%, #7C5CFC 100%);
+  color: #FFFFFF;
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-hero-side::before {
+  content: '';
+  position: absolute;
+  top: -15%;
+  right: -15%;
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 70%);
+  border-radius: var(--radius-full);
+}
+
+.auth-hero-side::after {
+  content: '';
+  position: absolute;
+  bottom: -10%;
+  left: -10%;
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.2) 0%, rgba(255,255,255,0) 70%);
+  border-radius: var(--radius-full);
+}
+
+.auth-form-side {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  background: var(--cc-surface);
+  overflow-y: auto;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 440px;
+}
+
+.auth-header {
+  margin-bottom: 2rem;
+}
+
+.auth-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--cc-text);
+  margin-bottom: 0.5rem;
+}
+
+.auth-subtitle {
+  font-size: 0.9375rem;
+  color: var(--cc-muted);
+}
+
+.auth-role-select {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.role-pill {
+  border: 1.5px solid var(--cc-border);
+  border-radius: var(--radius-md);
+  padding: 0.75rem;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  background: var(--cc-surface);
+}
+
+.role-pill input[type="radio"] {
+  display: none;
+}
+
+.role-pill:hover {
+  border-color: #CBD5E1;
+  background: var(--cc-surface-hover);
+}
+
+.role-pill.active {
+  border-color: var(--cc-primary);
+  background: var(--cc-primary-light);
+  color: var(--cc-primary);
+  font-weight: 600;
+}
+
+.password-input-wrap {
+  position: relative;
+}
+
+.password-toggle-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--cc-muted);
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0;
+}
+
+.password-toggle-btn:hover {
+  color: var(--cc-text);
+}
+
+.social-auth-btn {
+  width: 100%;
+  padding: 0.625rem;
+  border: 1.5px solid var(--cc-border);
+  border-radius: var(--radius-md);
+  background: var(--cc-surface);
+  color: var(--cc-text);
+  font-weight: 600;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  transition: var(--transition-fast);
+}
+
+.social-auth-btn:hover {
+  background: var(--cc-surface-hover);
+  border-color: #CBD5E1;
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 1.5rem 0;
+  color: var(--cc-muted);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.auth-divider::before, .auth-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--cc-border);
+}
+
+.auth-divider span {
+  padding: 0 0.75rem;
+}
