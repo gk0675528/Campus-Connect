@@ -16,6 +16,7 @@ Do not deploy this backend to Cloudflare Workers as-is. It depends on PostgreSQL
 4. Add these API environment variables in Render:
 
    ```text
+   ENVIRONMENT=production
    APP_NAME=Pathzeo
    DEBUG=False
    SECRET_KEY=<long-random-secret>
@@ -28,14 +29,14 @@ Do not deploy this backend to Cloudflare Workers as-is. It depends on PostgreSQL
 5. Deploy the service and confirm `https://<your-api-host>/health` responds successfully.
 6. Run database migrations from the backend service environment with `alembic upgrade head` before using the application.
 
-The existing Render blueprint uses `python main.py` and `/health`. Supply the required `DATABASE_URL`, `REDIS_URL`, and `SECRET_KEY` values before deploying.
+The existing Render blueprint uses `python main.py` and `/health`. Supply all five required production values (`ENVIRONMENT`, `DATABASE_URL`, `REDIS_URL`, `SECRET_KEY`, and `CORS_ORIGINS`) before deploying.
 
 ## 2. Deploy the frontend to Cloudflare Pages
 
 1. In Cloudflare, create a Pages project connected to the same GitHub repository.
 2. Set the root directory to `frontend`.
-3. Leave the build command empty and set the build output directory to `.`.
-4. In `frontend/js/config.js`, set `deployedApiUrl` to the API's HTTPS origin, for example `https://<your-api-host>`. Do not add a trailing slash or any secret values.
+3. Set the build output directory to `.` and add the Pages environment variable `PATHZEO_API_URL=https://<your-api-host>` for production and preview deployments.
+4. Set the build command to `sed -i "s|__PATHZEO_API_URL__|${PATHZEO_API_URL}|g" js/config.js`.
 5. Commit and push that configuration, then allow Cloudflare Pages to deploy it.
 6. Copy the Pages URL, then set `CORS_ORIGINS` on the API to that exact origin, without a trailing slash, and redeploy the API if needed.
 
@@ -53,6 +54,7 @@ Required:
 - `REDIS_URL`
 - `SECRET_KEY`
 - `CORS_ORIGINS`
+- `ENVIRONMENT=production`
 - `DEBUG=False`
 
 Optional integrations:

@@ -105,12 +105,15 @@ const Auth = {
       return false;
     }
 
-    // Refresh user state from backend
-    let user = this.getCurrentUser();
-    if (!user) {
-      user = await this.fetchCurrentUser();
+    const user = await this.fetchCurrentUser();
+    if (user) return true;
+
+    this.logout(false);
+    if (redirectIfNotAuth) {
+      const returnUrl = encodeURIComponent(window.location.pathname + window.location.search);
+      window.location.href = `login.html?return_url=${returnUrl}`;
     }
-    return true;
+    return false;
   },
 
   /**

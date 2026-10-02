@@ -15,11 +15,11 @@ async function initAdminDashboard() {
   const apiVersionEl = document.getElementById("admin-api-version");
   const baseUrlEl = document.getElementById("admin-api-base-url");
 
-  if (baseUrlEl) baseUrlEl.textContent = API_BASE_URL;
+  if (baseUrlEl) baseUrlEl.textContent = API.baseUrl || "Not configured";
 
   // Check Backend Health
   try {
-    const health = await fetch(`${API_BASE_URL}/health`).then(res => res.json());
+    const health = await API.get("/health");
     if (healthStatusEl) {
       healthStatusEl.className = "badge bg-success";
       healthStatusEl.innerHTML = `<i class="bi bi-check-circle-fill me-1"></i>${health.status.toUpperCase()}`;

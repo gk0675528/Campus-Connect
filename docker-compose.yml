@@ -7,7 +7,7 @@ services:
     container_name: campusconnect-db
     environment:
       POSTGRES_USER: campusconnect
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
       POSTGRES_DB: campusconnect
     ports:
       - "5432:5432"
@@ -65,13 +65,15 @@ services:
       - "8000:8000"
 
     environment:
-      DATABASE_URL: postgresql+asyncpg://campusconnect:${POSTGRES_PASSWORD:-changeme}@postgres:5432/campusconnect
+      DATABASE_URL: postgresql+asyncpg://campusconnect:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@postgres:5432/campusconnect
       REDIS_URL: redis://redis:6379/0
       MONGODB_URL: mongodb://mongodb:27017
       MONGODB_DATABASE: campusconnect
-      DEBUG: "False"
+      DEBUG: ${DEBUG:-False}
+      ENVIRONMENT: ${ENVIRONMENT:-development}
+      APP_NAME: Pathzeo
       SECRET_KEY: ${SECRET_KEY:?Set SECRET_KEY before starting the API}
-      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
+      CORS_ORIGINS: ${CORS_ORIGINS:?Set CORS_ORIGINS in .env}
 
     depends_on:
       postgres:

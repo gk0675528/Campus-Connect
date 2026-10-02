@@ -3,19 +3,29 @@
  * Centralized configuration replaceable in production without modifying logic files.
  */
 
-const configuredApiUrl = window.APP_CONFIG && window.APP_CONFIG.API_BASE_URL;
-const injectedApiUrl = window.PATHZEO_API_URL || window.SKILLORA_API_URL || window.CAMPUSCONNECT_API_URL;
+const configuredApiUrl = (window.APP_CONFIG && window.APP_CONFIG.API_BASE_URL) || window.PATHZEO_API_URL || "";
 const isLocalDev = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
-const deployedApiUrl = "";
-const defaultApiUrl = (isLocalDev && window.location.port !== "8000")
-  ? "http://localhost:8000"
-  : (window.location.protocol.startsWith("http") ? window.location.origin : "http://localhost:8000");
+const buildApiUrl = "__PATHZEO_API_URL__";
+const deployedApiUrl = buildApiUrl.startsWith("__") ? "" : buildApiUrl;
+const defaultApiUrl = (configuredApiUrl || deployedApiUrl || (isLocalDev ? "http://localhost:8000" : ""))
+  .replace(/\/+$/, "");
 
 window.APP_CONFIG = {
   ...(window.APP_CONFIG || {}),
-  // Set window.PATHZEO_API_URL before this script for a separate API host.
-  API_BASE_URL: configuredApiUrl || injectedApiUrl || deployedApiUrl || defaultApiUrl
+  API_BASE_URL: defaultApiUrl
 };
+
+if (!defaultApiUrl) {
+  console.error("Pathzeo API URL is not configured for this deployment.");
+}
+
+document.querySelectorAll("[data-api-base-url]").forEach((element) => {
+  if (element instanceof HTMLInputElement) {
+    element.value = defaultApiUrl || "Not configured";
+  } else {
+    element.textContent = defaultApiUrl || "Not configured";
+  }
+});
 
 /**
  * Feature Flags - Aligning with available backend endpoints vs roadmap

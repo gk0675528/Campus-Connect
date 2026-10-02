@@ -177,6 +177,8 @@ app.add_middleware(
         r"^https?://"
         r"(localhost|127\.0\.0\.1)"
         r"(:\d+)?$"
+        if settings.ENVIRONMENT == "development"
+        else None
     ),
     allow_credentials=True,
     allow_methods=["*"],

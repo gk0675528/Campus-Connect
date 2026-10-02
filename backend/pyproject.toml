@@ -3,9 +3,9 @@ requires = ["setuptools>=68.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "campusconnect"
+name = "Pathzeo"
 version = "1.0.0"
-description = "AI-powered mentorship and career guidance platform"
+description = "Pathzeo mentorship and career guidance platform"
 readme = "../README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
@@ -14,8 +14,8 @@ authors = [
 ]
 
 [project.urls]
-Homepage = "https://campusconnect.io"
-Repository = "https://github.com/campusconnect/backend"
+Homepage = "https://github.com/gk0675528/Campus-Connect"
+Repository = "https://github.com/gk0675528/Campus-Connect"
 
 [tool.setuptools]
 include-package-data = true

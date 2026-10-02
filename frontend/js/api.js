@@ -3,7 +3,7 @@
  * Integrates directly with FastAPI Backend.
  */
 
-const API_BASE_URL = (window.APP_CONFIG && window.APP_CONFIG.API_BASE_URL) || "http://localhost:8000";
+const API_BASE_URL = (window.APP_CONFIG && window.APP_CONFIG.API_BASE_URL) || "";
 
 class ApiClient {
   constructor() {
@@ -14,6 +14,10 @@ class ApiClient {
    * Core HTTP Request Dispatcher
    */
   async request(endpoint, options = {}) {
+    if (!this.baseUrl) {
+      throw new Error("Pathzeo API URL is not configured.");
+    }
+
     const url = endpoint.startsWith("http") ? endpoint : `${this.baseUrl}${endpoint}`;
     const headers = {
       "Accept": "application/json",

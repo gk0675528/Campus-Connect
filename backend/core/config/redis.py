@@ -71,9 +71,13 @@ async def connect_redis():
         )
         await client.ping()
         redis_client = client
-        logger.info(f"Connected to Redis at {settings.REDIS_URL}")
+        logger.info("Connected to Redis")
         return redis_client
     except Exception as e:
+        if settings.is_production_like:
+            logger.error("Redis is required but unavailable: %s", e)
+            raise RuntimeError("Redis is required in production") from e
+
         logger.info(f"Redis unavailable ({e}). Using in-memory fallback cache.")
         redis_client = InMemoryRedis()
         return redis_client

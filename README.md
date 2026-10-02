@@ -243,14 +243,16 @@ Open `http://localhost:3000` in a browser. The default frontend API target is `h
 Docker Compose starts PostgreSQL, Redis, and the backend API:
 
 ```bash
-$env:SECRET_KEY = "local-development-secret-change-me"
+cp .env.example .env
+# Replace the local PostgreSQL password and secret placeholders in .env.
 docker compose up --build
 ```
 
-On macOS or Linux:
+Windows PowerShell:
 
-```bash
-export SECRET_KEY="local-development-secret-change-me"
+```powershell
+Copy-Item .env.example .env
+# Replace the local PostgreSQL password and secret placeholders in .env.
 docker compose up --build
 ```
 
@@ -282,18 +284,17 @@ The frontend configuration is centralized in `frontend/js/config.js`.
 Resolution order for the API URL:
 
 1. Existing `window.APP_CONFIG.API_BASE_URL`
-2. `window.PATHZEO_API_URL` (legacy `window.SKILLORA_API_URL` and `window.CAMPUSCONNECT_API_URL` are also accepted)
-3. `deployedApiUrl` in `frontend/js/config.js`
-4. The current browser origin when served over HTTP or HTTPS
-5. `http://localhost:8000` when opened as a local file
+2. `window.PATHZEO_API_URL`
+3. The Cloudflare Pages build-time `PATHZEO_API_URL` value
+4. `http://localhost:8000` only when the frontend is served from localhost or 127.0.0.1
 
-For a separate production frontend and backend, set `deployedApiUrl` in `frontend/js/config.js` to the deployed API origin before publishing:
+For Cloudflare Pages, set the `PATHZEO_API_URL` build environment variable to the backend's HTTPS origin and use this build command from the `frontend/` root:
 
-```javascript
-const deployedApiUrl = "https://your-api-domain.example";
+```sh
+sed -i "s|__PATHZEO_API_URL__|${PATHZEO_API_URL}|g" js/config.js
 ```
 
-The API origin must not include a trailing slash. The frontend must be served over HTTPS in production when the API is HTTPS. Do not put secret keys in frontend files; browser code only needs the public API URL and public payment configuration where applicable.
+Set the build output directory to `.`. Production does not fall back to the frontend's own origin; a missing API URL is reported as a configuration error. The API origin must not include a trailing slash. Never put secret keys in frontend files.
 
 ## Backend Configuration
 

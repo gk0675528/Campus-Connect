@@ -3,6 +3,7 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 from sqlalchemy.pool import NullPool
 from core.config.settings import settings
 import logging
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -70,6 +71,8 @@ async def init_db():
                 logger.info("Created missing database tables")
     except Exception as e:
         logger.warning(f"Database schema initialization note: {e}")
+        if settings.is_production_like:
+            raise
 
         # Auto-seed if database has no users
         # Seed demo data only in development.
@@ -87,8 +90,9 @@ async def init_db():
                     )
                     count = count_res.scalar_one_or_none() or 0
 
-                    if count == 0:
-                        await seed_users(session)
+                    demo_password = os.getenv("DEMO_USER_PASSWORD")
+                    if count == 0 and demo_password:
+                        await seed_users(session, demo_password)
                         logger.info(
                             "Development database initialized with demo users"
                         )

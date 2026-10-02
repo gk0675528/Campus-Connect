@@ -2,6 +2,7 @@ import os
 import secrets
 from pathlib import Path
 from typing import Optional
+from urllib.parse import urlsplit
 
 from dotenv import load_dotenv
 from pydantic import model_validator
@@ -120,11 +121,52 @@ class Settings(BaseSettings):
 
     @model_validator(mode="after")
     def validate_security_configuration(self):
+        self.APP_NAME = "Pathzeo"
+        self.ENVIRONMENT = self.ENVIRONMENT.strip().lower()
+
+        if self.is_production_like:
+            required = (
+                "ENVIRONMENT",
+                "DATABASE_URL",
+                "REDIS_URL",
+                "SECRET_KEY",
+                "CORS_ORIGINS",
+            )
+            missing = [name for name in required if not os.getenv(name)]
+            if missing:
+                raise ValueError(
+                    "Missing required production settings: " + ", ".join(missing)
+                )
+            if self.DEBUG:
+                raise ValueError("DEBUG must be false in production")
+            if not self.DATABASE_URL.startswith("postgresql+asyncpg://"):
+                raise ValueError("DATABASE_URL must use postgresql+asyncpg in production")
+            if not self.REDIS_URL.startswith(("redis://", "rediss://")):
+                raise ValueError("REDIS_URL must use redis:// or rediss:// in production")
+
+            origins = self.cors_origins
+            if not origins or "*" in origins:
+                raise ValueError("CORS_ORIGINS must contain explicit production origins")
+            for origin in origins:
+                parsed_origin = urlsplit(origin)
+                if (
+                    parsed_origin.scheme != "https"
+                    or not parsed_origin.netloc
+                    or parsed_origin.path
+                    or parsed_origin.query
+                    or parsed_origin.fragment
+                ):
+                    raise ValueError(
+                        "Production CORS_ORIGINS must be HTTPS origins without paths"
+                    )
+
         placeholders = {
             "your-secret-key-change-in-production",
             "your-super-secret-key-change-this-in-production",
             "replace-with-a-random-long-secret-key",
             "replace-with-a-long-random-value",
+            "replace-with-a-random-local-secret",
+            "your-super-secret-key-change-this-in-production",
             "change-me",
             "secret",
         }

@@ -6,7 +6,7 @@ from core.config.security import hash_password
 import uuid
 
 
-async def seed_users(db: AsyncSession):
+async def seed_users(db: AsyncSession, demo_password: str):
     """Seed sample users"""
     
     users = [
@@ -14,7 +14,7 @@ async def seed_users(db: AsyncSession):
             id=uuid.uuid4(),
             email="student@example.com",
             username="student",
-            password_hash=hash_password("password123"),
+            password_hash=hash_password(demo_password),
             first_name="John",
             last_name="Student",
             role="student",
@@ -26,7 +26,7 @@ async def seed_users(db: AsyncSession):
             id=uuid.uuid4(),
             email="mentor@example.com",
             username="mentor",
-            password_hash=hash_password("password123"),
+            password_hash=hash_password(demo_password),
             first_name="Jane",
             last_name="Mentor",
             role="peer_mentor",
@@ -43,7 +43,7 @@ async def seed_users(db: AsyncSession):
             id=uuid.uuid4(),
             email="professor@example.com",
             username="professor",
-            password_hash=hash_password("password123"),
+            password_hash=hash_password(demo_password),
             first_name="Dr.",
             last_name="Professor",
             role="professor",
