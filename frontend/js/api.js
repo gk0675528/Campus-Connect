@@ -1,5 +1,5 @@
 /**
- * CampusConnect - Centralized API Client & Services
+ * Pathzeo - Centralized API Client & Services
  * Integrates directly with FastAPI Backend.
  */
 
@@ -97,7 +97,7 @@ class ApiClient {
       return data;
     } catch (err) {
       if (err.name === "TypeError" && err.message.includes("Failed to fetch")) {
-        throw new Error("Unable to connect to CampusConnect server. Please ensure the backend is running at " + this.baseUrl);
+        throw new Error("Unable to connect to Pathzeo server. Please ensure the backend is running at " + this.baseUrl);
       }
       throw err;
     }

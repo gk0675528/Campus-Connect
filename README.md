@@ -1,12 +1,12 @@
-# Skillora
+# Pathzeo
 
-Skillora is a student learning, mentorship, and career growth platform that connects students with mentors, alumni, educators, and learning communities. The project contains a FastAPI backend and a static HTML/CSS/JavaScript frontend.
+Pathzeo is a student learning, mentorship, and career growth platform that connects students with mentors, alumni, educators, and learning communities. The project contains a FastAPI backend and a static HTML/CSS/JavaScript frontend.
 
 > Learn Better. Connect Smarter. Grow Together.
 
 ## Contents
 
-- [CampusConnect](#campusconnect)
+- [Pathzeo](#pathzeo)
   - [Contents](#contents)
   - [Overview](#overview)
     - [Backend](#backend)
@@ -64,9 +64,9 @@ The frontend is a static web application built with:
 
 - HTML5, CSS3, and vanilla JavaScript
 - Bootstrap 5 and Bootstrap Icons from CDNs
-- A centralized Fetch API client in `campusconnect-frontend/js/api.js`
-- Shared runtime configuration in `campusconnect-frontend/js/config.js`
-- JWT session handling in `campusconnect-frontend/js/auth.js`
+- A centralized Fetch API client in `frontend/js/api.js`
+- Shared runtime configuration in `frontend/js/config.js`
+- JWT session handling in `frontend/js/auth.js`
 - Separate pages for authentication, dashboards, mentors, bookings, communities, messaging, payments, notifications, profiles, settings, and administration
 
 ## Architecture
@@ -98,24 +98,16 @@ The frontend sends requests to `/api/...` endpoints through the centralized `API
 │   ├── pyproject.toml                 # Python project tooling
 │   ├── .env.example                   # Backend environment template
 │   ├── Dockerfile                     # Backend container image
-<<<<<<< HEAD
-│   ├── docker-compose.yml              # PostgreSQL, Redis, and API services
 │   ├── alembic/                       # Database migration configuration
 │   ├── app/api.py                     # API router aggregation
 │   ├── core/                          # Settings, security, database, middleware
-=======
-│   ├── docker-compose.yml             # PostgreSQL,and API services
-│   ├── alembic/                       # Database migration configuration
-│   ├── app/api.py                     # API router aggregation
-│   ├── core/                          # middleware
->>>>>>> 6974f1ff2a6198ff60d4eaf6abe7338b40b20078
 │   ├── modules/                       # Domain modules and API routes
 │   ├── integrations/                  # OAuth and payment clients
 │   ├── database/seeders/              # Seed data utilities
 │   ├── storage/                       # S3 integration
 │   ├── websocket/                     # Chat WebSocket support
 │   └── docs/api_docs/                 # Backend API notes
-├── campusconnect-frontend/
+├── frontend/
 │   ├── index.html                     # Public landing page
 │   ├── login.html                     # Login page
 │   ├── register.html                  # Registration page
@@ -133,6 +125,11 @@ The frontend sends requests to `/api/...` endpoints through the centralized `API
 │   ├── css/                           # Shared and page styles
 │   ├── js/                            # API, auth, UI, and page modules
 │   └── assets/                        # Logos and images
+├── docker-compose.yml                 # Local PostgreSQL, Redis, and API services
+├── Dockerfile                         # Root-context backend container image
+├── render.yaml                        # Render API service configuration
+├── railway.json                       # Railway API deployment configuration
+├── DEPLOYMENT.md                      # Production hosting guide
 └── README.md                          # This guide
 ```
 
@@ -235,7 +232,7 @@ The backend is available at:
 Open a second terminal from the repository root:
 
 ```bash
-cd campusconnect-frontend
+cd frontend
 python -m http.server 3000
 ```
 
@@ -246,7 +243,6 @@ Open `http://localhost:3000` in a browser. The default frontend API target is `h
 Docker Compose starts PostgreSQL, Redis, and the backend API:
 
 ```bash
-cd backend
 $env:SECRET_KEY = "local-development-secret-change-me"
 docker compose up --build
 ```
@@ -254,7 +250,6 @@ docker compose up --build
 On macOS or Linux:
 
 ```bash
-cd backend
 export SECRET_KEY="local-development-secret-change-me"
 docker compose up --build
 ```
@@ -268,7 +263,7 @@ The Compose file exposes:
 The frontend remains a static site and can be served separately on port `3000`:
 
 ```bash
-cd campusconnect-frontend
+cd frontend
 python -m http.server 3000
 ```
 
@@ -282,25 +277,23 @@ Add `-v` only when you intentionally want to delete the local PostgreSQL and Red
 
 ## Frontend Configuration
 
-The frontend configuration is centralized in `campusconnect-frontend/js/config.js`.
+The frontend configuration is centralized in `frontend/js/config.js`.
 
 Resolution order for the API URL:
 
 1. Existing `window.APP_CONFIG.API_BASE_URL`
-2. `window.CAMPUSCONNECT_API_URL`
-3. The current browser origin when served over HTTP or HTTPS
-4. `http://localhost:8000` when opened as a local file
+2. `window.PATHZEO_API_URL` (legacy `window.SKILLORA_API_URL` and `window.CAMPUSCONNECT_API_URL` are also accepted)
+3. `deployedApiUrl` in `frontend/js/config.js`
+4. The current browser origin when served over HTTP or HTTPS
+5. `http://localhost:8000` when opened as a local file
 
-For a separate production frontend and backend, define the API URL before loading `js/config.js` in each deployed page, or update the deployment copy of the configuration script:
+For a separate production frontend and backend, set `deployedApiUrl` in `frontend/js/config.js` to the deployed API origin before publishing:
 
-```html
-<script>
-  window.CAMPUSCONNECT_API_URL = "https://api.example.com";
-</script>
-<script src="js/config.js"></script>
+```javascript
+const deployedApiUrl = "https://your-api-domain.example";
 ```
 
-The frontend must be served over HTTPS in production when the API is HTTPS. Do not put secret keys in frontend files; browser code only needs the public API URL and public payment configuration where applicable.
+The API origin must not include a trailing slash. The frontend must be served over HTTPS in production when the API is HTTPS. Do not put secret keys in frontend files; browser code only needs the public API URL and public payment configuration where applicable.
 
 ## Backend Configuration
 
@@ -342,7 +335,7 @@ Never commit a real `.env` file, private key, payment secret, OAuth secret, or d
 
 ### Feature flags
 
-Optional or roadmap functionality is controlled in `campusconnect-frontend/js/config.js`, including:
+Optional or roadmap functionality is controlled in `frontend/js/config.js`, including:
 
 - AI mentor matching
 - AI career advisor
@@ -443,7 +436,6 @@ black .
 pylint modules/
 ```
 
-<<<<<<< HEAD
 Frontend validation should include:
 
 - Serving the frontend through HTTP rather than `file://`
@@ -456,7 +448,7 @@ Frontend validation should include:
 
 ## Production Deployment
 
-The backend can be deployed as a Docker container or as a Python FastAPI application on a compatible Linux service. The frontend can be deployed to any static hosting service.
+Recommended production architecture: Cloudflare Pages serves the static frontend from `frontend/`, while Render or Railway runs the FastAPI Docker service. Keep PostgreSQL and Redis as managed services; this backend is not configured to run as a Cloudflare Worker.
 
 ### Required production settings
 
@@ -472,14 +464,16 @@ CORS_ORIGINS=https://<frontend-host>
 
 1. Provision PostgreSQL and Redis with backups, monitoring, and network restrictions.
 2. Configure all backend secrets in the hosting platform's secret store.
-3. Build and deploy the backend image from `backend/Dockerfile`.
+3. Deploy the backend from `backend/` on Render, or use the root `Dockerfile` with a root build context on another Docker host.
 4. Run database migrations with `alembic upgrade head`.
 5. Confirm `GET /health` returns HTTP 200.
-6. Deploy the `campusconnect-frontend/` directory to static hosting.
-7. Configure the production API URL in the frontend.
+6. In Cloudflare Pages, connect this GitHub repository, set the root directory to `frontend`, leave the build command empty, and set the build output directory to `.`.
+7. Set `deployedApiUrl` in `frontend/js/config.js` to the backend's HTTPS origin, then redeploy the Pages site.
 8. Set backend `CORS_ORIGINS` to the exact frontend origin.
 9. Configure HTTPS, custom domains, logs, alerts, and database backups.
 10. Run the authentication and core workflow smoke tests.
+
+Cloudflare Pages variables do not automatically become browser-side JavaScript settings for a plain static site. The API origin therefore needs to be set in `frontend/js/config.js` before the Pages deployment.
 
 For separate frontend and API domains, do not use `*` for CORS. List only trusted HTTPS origins.
 
@@ -540,7 +534,4 @@ Runtime deployment still requires environment-specific infrastructure and secret
 
 ## License
 
-The project currently documents an MIT license in the component documentation. Confirm the intended license and add the formal license file before public distribution.
-=======
- MIT license in the component documentation. Confirm the intended license and add the formal license file before public distribution.
->>>>>>> 6974f1ff2a6198ff60d4eaf6abe7338b40b20078
+See [LICENSE](LICENSE) for the project license.

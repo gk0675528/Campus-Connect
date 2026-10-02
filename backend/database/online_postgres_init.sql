@@ -1,4 +1,4 @@
--- PostgreSQL setup for CampusConnect hosting
+-- PostgreSQL setup for Pathzeo hosting
 -- Run this once on a managed PostgreSQL instance or local PostgreSQL server.
 
 CREATE DATABASE campusconnect;

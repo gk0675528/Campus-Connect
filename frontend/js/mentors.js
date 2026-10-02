@@ -1,5 +1,5 @@
 /**
- * CampusConnect - Mentor Marketplace & Profile Controller
+ * Pathzeo - Mentor Marketplace & Profile Controller
  */
 
 let currentSelectedSkills = [];
@@ -152,7 +152,7 @@ function filterAndRenderMentors() {
               <h5 class="mentor-name">${Utils.escapeHtml(m.first_name)} ${Utils.escapeHtml(m.last_name)}</h5>
               <div class="mentor-college">
                 <i class="bi bi-building"></i>
-                <span>${Utils.escapeHtml(m.college || "CampusConnect University")}</span>
+                <span>${Utils.escapeHtml(m.college || "Pathzeo University")}</span>
               </div>
               <div class="mentor-rating-row">
                 ${UI.renderStars(m.rating || 5.0)}
@@ -255,7 +255,7 @@ function renderMentorProfile(m) {
                 <h2 class="font-heading fw-bold mb-0">${Utils.escapeHtml(fullName)}</h2>
                 <span class="badge bg-primary text-white rounded-pill"><i class="bi bi-patch-check-fill me-1"></i>Verified Mentor</span>
               </div>
-              <p class="text-muted mb-2"><i class="bi bi-building me-1"></i>${Utils.escapeHtml(m.college || "CampusConnect University")}</p>
+              <p class="text-muted mb-2"><i class="bi bi-building me-1"></i>${Utils.escapeHtml(m.college || "Pathzeo University")}</p>
               <div class="d-flex align-items-center justify-content-center justify-content-sm-start gap-3">
                 <div>${UI.renderStars(m.rating || 5.0)}</div>
                 <div class="text-muted small">• ${m.total_sessions || 0} completed sessions</div>
@@ -274,7 +274,7 @@ function renderMentorProfile(m) {
           <div class="alert alert-light border d-flex align-items-center gap-3 p-3 rounded-3 mb-0">
             <i class="bi bi-shield-check fs-3 text-success"></i>
             <div class="small text-secondary">
-              <strong>CampusConnect Guarantee:</strong> Verified profile credentials with end-to-end booking protection and quality assurance.
+              <strong>Pathzeo Guarantee:</strong> Verified profile credentials with end-to-end booking protection and quality assurance.
             </div>
           </div>
         </div>
@@ -352,7 +352,7 @@ function openCostCalculatorModal(mentorId, mentorName, baseRate) {
         </div>
         <div class="modal-body p-4">
           <p class="text-secondary small mb-3">
-            Calculating real-time session cost with <strong>${Utils.escapeHtml(mentorName)}</strong> based on CampusConnect transparent pricing rules.
+            Calculating real-time session cost with <strong>${Utils.escapeHtml(mentorName)}</strong> based on Pathzeo transparent pricing rules.
           </p>
 
           <div class="mb-3">

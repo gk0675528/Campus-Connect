@@ -1,5 +1,5 @@
 /**
- * CampusConnect - UI Helper and Component System
+ * Pathzeo - UI Helper and Component System
  */
 
 const UI = {

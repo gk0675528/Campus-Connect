@@ -1,5 +1,5 @@
 /**
- * CampusConnect - Notifications Controller
+ * Pathzeo - Notifications Controller
  */
 
 let currentFilterUnreadOnly = false;

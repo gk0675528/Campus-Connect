@@ -23,7 +23,7 @@ class Settings(BaseSettings):
     """Application Settings"""
 
     # App
-    APP_NAME: str = os.getenv("APP_NAME", "CampusConnect")
+    APP_NAME: str = os.getenv("APP_NAME", "Pathzeo")
     APP_VERSION: str = "1.1.0"
     DEBUG: bool = os.getenv("DEBUG", "False") == "True"
     ENVIRONMENT: str = os.getenv("ENVIRONMENT", "development").lower()

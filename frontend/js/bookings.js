@@ -1,5 +1,5 @@
 /**
- * CampusConnect - Bookings & Sessions Controller
+ * Pathzeo - Bookings & Sessions Controller
  */
 
 let currentBookingData = null;

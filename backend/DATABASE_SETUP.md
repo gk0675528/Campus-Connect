@@ -1,4 +1,4 @@
-# Campus Connect - Database Setup & Verification Guide
+# Pathzeo - Database Setup & Verification Guide
 
 ## Overview
 
@@ -359,7 +359,7 @@ alembic upgrade head
 python main.py
 
 # Expected console output:
-# INFO: Starting CampusConnect API
+# INFO: Starting Pathzeo API
 # INFO: Database initialized
 # INFO: Redis connected
 # INFO: MongoDB document store initialized

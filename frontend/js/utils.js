@@ -1,5 +1,5 @@
 /**
- * CampusConnect - Utility Helper Functions
+ * Pathzeo - Utility Helper Functions
  */
 
 const Utils = {

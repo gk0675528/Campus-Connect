@@ -1,5 +1,5 @@
 /**
- * CampusConnect - Payments & Checkout Controller
+ * Pathzeo - Payments & Checkout Controller
  */
 
 let currentPaymentSessionId = null;

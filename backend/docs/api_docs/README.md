@@ -1,4 +1,4 @@
-# CampusConnect Backend Documentation
+# Pathzeo Backend Documentation
 
 ## Project Structure
 

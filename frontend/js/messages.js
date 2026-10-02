@@ -1,5 +1,5 @@
 /**
- * CampusConnect - Direct Messaging Controller
+ * Pathzeo - Direct Messaging Controller
  * Supports 1-on-1 conversations and contact safety warnings.
  */
 

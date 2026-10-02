@@ -1,5 +1,5 @@
 /**
- * CampusConnect - Profile Controller
+ * Pathzeo - Profile Controller
  */
 
 document.addEventListener("DOMContentLoaded", async () => {

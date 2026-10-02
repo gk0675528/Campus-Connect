@@ -9,11 +9,11 @@ ENV PIP_NO_CACHE_DIR=1
 RUN apt-get update && apt-get install -y gcc postgresql-client \
     && rm -rf /var/lib/apt/lists/*
 
-COPY backend/requirements.txt ./requirements.txt
+COPY requirements.txt ./requirements.txt
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY backend/ .
+COPY . .
 
 RUN mkdir -p logs
 

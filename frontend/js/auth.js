@@ -1,5 +1,5 @@
 /**
- * CampusConnect - Authentication & Session Management
+ * Pathzeo - Authentication & Session Management
  */
 
 const Auth = {
@@ -199,7 +199,7 @@ const Auth = {
         e.preventDefault();
         UI.showConfirmModal({
           title: "Sign Out",
-          message: "Are you sure you want to sign out of CampusConnect?",
+          message: "Are you sure you want to sign out of Pathzeo?",
           confirmText: "Sign Out",
           confirmClass: "btn-primary",
           onConfirm: () => {

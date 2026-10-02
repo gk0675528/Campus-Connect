@@ -4,7 +4,7 @@ Final Product Flow & System Workflow Document
 
 "Har Student Tak Pahunch, Har Guru Ki Samajh"
 
-Document purposeThis document converts the CampusConnect proposal into a consistent implementation-oriented flow specification. It preserves the source product model—Student, Professor, Industry Expert and Admin—and strengthens the operational flows where the proposal needs explicit states, failure handling, moderation, booking, payment and lifecycle controls.
+Document purposeThis document converts the Pathzeo proposal into a consistent implementation-oriented flow specification. It preserves the source product model—Student, Professor, Industry Expert and Admin—and strengthens the operational flows where the proposal needs explicit states, failure handling, moderation, booking, payment and lifecycle controls.
 
 Item
 
@@ -12,7 +12,7 @@ Final Definition
 
 Product
 
-CampusConnect
+Pathzeo
 
 Primary users
 
@@ -42,7 +42,7 @@ Finalized: September 2026
 
 1. Product Flow Analysis & Corrections
 
-The source proposal defines CampusConnect as a verified peer-to-peer mentorship platform with three main user types and an Admin role. Its stated feature set includes peer chat, a doubts board, expert session booking, mock interviews, Blue Tick verification, professor forums, moderation, payments, profiles and a privacy vault.
+The source proposal defines Pathzeo as a verified peer-to-peer mentorship platform with three main user types and an Admin role. Its stated feature set includes peer chat, a doubts board, expert session booking, mock interviews, Blue Tick verification, professor forums, moderation, payments, profiles and a privacy vault.
 
 What was fixedThe original proposal is strong at the product-feature level but leaves several production-critical transitions implicit. The final flows below make those transitions explicit: verification states, payment states, slot locking, cancellation/refund handling, moderation severity, account suspension, notifications, privacy lifecycle and admin auditability.
 
@@ -674,9 +674,9 @@ Professor verified       ↓Create research opportunity       ↓Students discov
 
 □ Mobile app (later phase)
 
-22. Alignment With CampusConnect Proposal
+22. Alignment With Pathzeo Proposal
 
-This final document is derived from the uploaded CampusConnect proposal. The proposal identifies the student problem, three primary roles, verification, privacy/security, moderation, freemium monetization, the four-step verified user journey, the MVP technology approach and the post-MVP roadmap. The additional states in this document are explicit implementation controls added to make those source-level flows operationally complete rather than changing the product's core proposition.
+This final document is derived from the uploaded Pathzeo proposal. The proposal identifies the student problem, three primary roles, verification, privacy/security, moderation, freemium monetization, the four-step verified user journey, the MVP technology approach and the post-MVP roadmap. The additional states in this document are explicit implementation controls added to make those source-level flows operationally complete rather than changing the product's core proposition.
 
 Proposal area
 

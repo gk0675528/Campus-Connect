@@ -1,5 +1,5 @@
 /**
- * CampusConnect - Student Dashboard Controller
+ * Pathzeo - Student Dashboard Controller
  * Aggregates real backend data for the student dashboard.
  */
 
@@ -129,7 +129,7 @@ async function loadRecommendedMentors() {
                 <h5 class="mentor-name">${Utils.escapeHtml(m.first_name)} ${Utils.escapeHtml(m.last_name)}</h5>
                 <div class="mentor-college">
                   <i class="bi bi-building"></i>
-                  <span>${Utils.escapeHtml(m.college || "CampusConnect University")}</span>
+                  <span>${Utils.escapeHtml(m.college || "Pathzeo University")}</span>
                 </div>
                 <div class="mentor-rating-row">
                   ${UI.renderStars(m.rating || 5.0)}

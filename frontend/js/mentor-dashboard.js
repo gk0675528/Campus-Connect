@@ -1,5 +1,5 @@
 /**
- * CampusConnect - Mentor Portal & Onboarding Wizard Controller
+ * Pathzeo - Mentor Portal & Onboarding Wizard Controller
  */
 
 let wizardStep = 1;
@@ -179,7 +179,7 @@ async function submitBecomeMentor() {
     UI.toast({
       type: "success",
       title: "Welcome Mentor!",
-      message: "You are now an active mentor on CampusConnect."
+      message: "You are now an active mentor on Pathzeo."
     });
 
     setTimeout(() => {

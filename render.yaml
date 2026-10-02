@@ -21,6 +21,6 @@ services:
       - key: CORS_ORIGINS
         value: "https://your-frontend-domain.com"
       - key: APP_NAME
-        value: "CampusConnect"
+        value: "Pathzeo"
       - key: APP_VERSION
         value: "1.0.0"

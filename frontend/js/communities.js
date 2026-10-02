@@ -1,5 +1,5 @@
 /**
- * CampusConnect - Communities & Discussions Controller
+ * Pathzeo - Communities & Discussions Controller
  */
 
 let currentCommunityId = null;

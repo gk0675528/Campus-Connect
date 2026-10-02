@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "CampusConnect Auth and Password Reset",
+    "name": "Pathzeo Auth and Password Reset",
     "description": "Registration, login, forgot-password OTP, OTP verification, and password reset requests.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },

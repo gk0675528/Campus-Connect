@@ -1,5 +1,5 @@
 /**
- * CampusConnect - Admin Dashboard Controller
+ * Pathzeo - Admin Dashboard Controller
  */
 
 document.addEventListener("DOMContentLoaded", async () => {
