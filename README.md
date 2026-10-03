@@ -536,3 +536,7 @@ Runtime deployment still requires environment-specific infrastructure and secret
 ## License
 
 See [LICENSE](LICENSE) for the project license.
+
+The pathzeo is the best Plateform to reach your goal .
+this palteform help you to your dreams to real word ,
+we will provide you for all the guidence in 1 to 1 also with our co-founders intraction in a week.
